@@ -102,7 +102,7 @@ registerRoute(
 self.addEventListener("push", (event) => {
   const data = event.data?.json() ?? {};
   const title = data.title || "新着情報";
-  const options: NotificationOptions = {
+  const options = {
     body: data.body || "新しいリリース情報があります",
     icon: "/icons/icon-192x192.png",
     badge: "/icons/badge-72x72.png",
@@ -118,7 +118,7 @@ self.addEventListener("push", (event) => {
         title: "閉じる",
       },
     ],
-  };
+  } as NotificationOptions & { actions?: Array<{ action: string; title: string }> };
 
   event.waitUntil(self.registration.showNotification(title, options));
 });
