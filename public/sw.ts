@@ -147,9 +147,14 @@ self.addEventListener("notificationclick", (event) => {
 });
 
 // バックグラウンド同期（オフライン時の操作を後で同期）
+interface SyncEvent extends ExtendableEvent {
+  tag: string;
+}
+
 self.addEventListener("sync", (event) => {
-  if (event.tag === "sync-interactions") {
-    event.waitUntil(syncUserInteractions());
+  const syncEvent = event as SyncEvent;
+  if (syncEvent.tag === "sync-interactions") {
+    syncEvent.waitUntil(syncUserInteractions());
   }
 });
 
