@@ -192,9 +192,9 @@ export function useUserInteractions() {
   const setInteraction = useCallback(
     async (
       itemId: string,
-      status: "BACKLOG" | "PLAYING" | "COMPLETED" | "DROPPED" | "WISHLIST",
-      userRating?: number,
-      notes?: string
+      status: "WANT" | "PLAYING" | "CLEARED" | "DROPPED",
+      personalRating?: number,
+      personalNote?: string
     ) => {
       if (!user) throw new Error("User not authenticated");
 
@@ -208,11 +208,11 @@ export function useUserInteractions() {
         if (existing) {
           // 更新
           const response = await client.models.UserInteraction.update({
-            id: existing.id,
+            userId: user.userId,
+            itemId,
             status,
-            userRating,
-            notes,
-            completedAt: status === "COMPLETED" ? new Date().toISOString() : undefined,
+            personalRating,
+            personalNote,
           });
           return response.data;
         } else {
@@ -221,10 +221,8 @@ export function useUserInteractions() {
             userId: user.userId,
             itemId,
             status,
-            userRating,
-            notes,
-            addedAt: new Date().toISOString(),
-            completedAt: status === "COMPLETED" ? new Date().toISOString() : undefined,
+            personalRating,
+            personalNote,
           });
           return response.data;
         }
@@ -250,7 +248,10 @@ export function useUserInteractions() {
       try {
         const existing = await getInteractionForItem(itemId);
         if (existing) {
-          await client.models.UserInteraction.delete({ id: existing.id });
+          await client.models.UserInteraction.delete({ 
+            userId: user.userId,
+            itemId,
+          });
         }
       } catch (err) {
         const error = err instanceof Error ? err : new Error("Failed to remove interaction");
@@ -309,7 +310,7 @@ export function useSeriesSubscription() {
 
   // シリーズを購読
   const subscribe = useCallback(
-    async (seriesId: string, notifyOnRelease = true) => {
+    async (seriesId: string, notifyPush = true) => {
       if (!user) throw new Error("User not authenticated");
 
       setIsLoading(true);
@@ -319,8 +320,8 @@ export function useSeriesSubscription() {
         const response = await client.models.SeriesSubscription.create({
           userId: user.userId,
           seriesId,
-          notifyOnRelease,
-          subscribedAt: new Date().toISOString(),
+          notifyPush,
+          notifyEmail: false,
         });
         return response.data;
       } catch (err) {
@@ -343,16 +344,10 @@ export function useSeriesSubscription() {
       setError(null);
 
       try {
-        const response = await client.models.SeriesSubscription.list({
-          filter: {
-            userId: { eq: user.userId },
-            seriesId: { eq: seriesId },
-          },
+        await client.models.SeriesSubscription.delete({
+          userId: user.userId,
+          seriesId,
         });
-
-        if (response.data[0]) {
-          await client.models.SeriesSubscription.delete({ id: response.data[0].id });
-        }
       } catch (err) {
         const error = err instanceof Error ? err : new Error("Failed to unsubscribe");
         setError(error);
@@ -404,13 +399,12 @@ export function useSeries() {
   const [error, setError] = useState<Error | null>(null);
 
   // シリーズ一覧を取得
-  const fetchSeries = useCallback(async (type?: "GAME" | "BOOK") => {
+  const fetchSeries = useCallback(async () => {
     setIsLoading(true);
     setError(null);
 
     try {
-      const filter = type ? { type: { eq: type } } : undefined;
-      const response = await client.models.Series.list({ filter });
+      const response = await client.models.Series.list();
       setSeries(response.data);
       return response.data;
     } catch (err) {

@@ -12,7 +12,7 @@ import {
 import { useAuth } from "@/lib/amplify";
 import { useUserInteractions } from "@/lib/amplify";
 
-type InteractionStatus = "BACKLOG" | "PLAYING" | "COMPLETED" | "DROPPED" | "WISHLIST";
+type InteractionStatus = "WANT" | "PLAYING" | "CLEARED" | "DROPPED";
 
 interface BacklogButtonProps {
   itemId: string;
@@ -24,29 +24,26 @@ interface BacklogButtonProps {
 
 // ステータスの日本語ラベル
 const STATUS_LABELS: Record<InteractionStatus, { game: string; book: string }> = {
-  BACKLOG: { game: "積みゲー", book: "積読" },
+  WANT: { game: "積みゲー", book: "積読" },
   PLAYING: { game: "プレイ中", book: "読書中" },
-  COMPLETED: { game: "クリア済み", book: "読了" },
+  CLEARED: { game: "クリア済み", book: "読了" },
   DROPPED: { game: "中断", book: "中断" },
-  WISHLIST: { game: "欲しいものリスト", book: "欲しいものリスト" },
 };
 
 // ステータスのアイコン
 const STATUS_ICONS: Record<InteractionStatus, string> = {
-  BACKLOG: "📚",
+  WANT: "📚",
   PLAYING: "🎮",
-  COMPLETED: "✅",
+  CLEARED: "✅",
   DROPPED: "⏸️",
-  WISHLIST: "💫",
 };
 
 // ステータスの色
 const STATUS_COLORS: Record<InteractionStatus, string> = {
-  BACKLOG: "bg-yellow-500 hover:bg-yellow-600",
+  WANT: "bg-yellow-500 hover:bg-yellow-600",
   PLAYING: "bg-blue-500 hover:bg-blue-600",
-  COMPLETED: "bg-green-500 hover:bg-green-600",
+  CLEARED: "bg-green-500 hover:bg-green-600",
   DROPPED: "bg-gray-500 hover:bg-gray-600",
-  WISHLIST: "bg-purple-500 hover:bg-purple-600",
 };
 
 /**
@@ -163,11 +160,10 @@ export function BacklogBadge({
   const icon = STATUS_ICONS[status];
 
   const colorClass = {
-    BACKLOG: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
+    WANT: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
     PLAYING: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
-    COMPLETED: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
+    CLEARED: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
     DROPPED: "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200",
-    WISHLIST: "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200",
   }[status];
 
   return (

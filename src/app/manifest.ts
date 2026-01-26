@@ -73,7 +73,6 @@ export default function manifest(): MetadataRoute.Manifest {
         src: "/screenshots/desktop.png",
         sizes: "1280x720",
         type: "image/png",
-        // @ts-expect-error - form_factor is valid but not in types
         form_factor: "wide",
         label: "デスクトップ版カレンダー表示",
       },
@@ -81,7 +80,6 @@ export default function manifest(): MetadataRoute.Manifest {
         src: "/screenshots/mobile.png",
         sizes: "750x1334",
         type: "image/png",
-        // @ts-expect-error - form_factor is valid but not in types
         form_factor: "narrow",
         label: "モバイル版リスト表示",
       },

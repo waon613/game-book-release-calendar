@@ -6,23 +6,25 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth, useUserInteractions, useSeriesSubscription } from "@/lib/amplify";
 import { BacklogBadge } from "./BacklogButton";
 
-type InteractionStatus = "BACKLOG" | "PLAYING" | "COMPLETED" | "DROPPED" | "WISHLIST";
+type InteractionStatus = "WANT" | "PLAYING" | "CLEARED" | "DROPPED";
 
 interface InteractionItem {
-  id: string;
+  userId: string;
   itemId: string;
   status: InteractionStatus;
-  userRating?: number | null;
-  notes?: string | null;
-  addedAt?: string | null;
-  completedAt?: string | null;
+  personalRating?: number | null;
+  personalNote?: string | null;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface SubscriptionItem {
-  id: string;
+  userId: string;
   seriesId: string;
-  notifyOnRelease?: boolean | null;
-  subscribedAt?: string | null;
+  notifyEmail?: boolean | null;
+  notifyPush?: boolean | null;
+  createdAt: string;
+  updatedAt: string;
 }
 
 /**
@@ -72,10 +74,10 @@ export function UserDashboard() {
 
   // 統計計算
   const stats = {
-    backlog: interactions.filter((i) => i.status === "BACKLOG").length,
+    backlog: interactions.filter((i) => i.status === "WANT").length,
     playing: interactions.filter((i) => i.status === "PLAYING").length,
-    completed: interactions.filter((i) => i.status === "COMPLETED").length,
-    wishlist: interactions.filter((i) => i.status === "WISHLIST").length,
+    completed: interactions.filter((i) => i.status === "CLEARED").length,
+    wishlist: interactions.filter((i) => i.status === "DROPPED").length,
     subscriptions: subscriptions.length,
   };
 
@@ -101,7 +103,7 @@ export function UserDashboard() {
 
         <TabsContent value="backlog">
           <InteractionList
-            items={interactions.filter((i) => i.status === "BACKLOG")}
+            items={interactions.filter((i) => i.status === "WANT")}
             loading={interactionsLoading}
             emptyMessage="積みゲー/積読はありません"
           />
@@ -117,7 +119,7 @@ export function UserDashboard() {
 
         <TabsContent value="completed">
           <InteractionList
-            items={interactions.filter((i) => i.status === "COMPLETED")}
+            items={interactions.filter((i) => i.status === "CLEARED")}
             loading={interactionsLoading}
             emptyMessage="クリア/読了したアイテムはありません"
           />
@@ -205,20 +207,20 @@ function InteractionList({
       <CardContent className="p-0">
         <ul className="divide-y divide-border">
           {items.map((item) => (
-            <li key={item.id} className="p-4 hover:bg-accent/50 transition-colors">
+            <li key={`${item.userId}-${item.itemId}`} className="p-4 hover:bg-accent/50 transition-colors">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium">アイテムID: {item.itemId}</p>
-                  {item.addedAt && (
+                  {item.createdAt && (
                     <p className="text-xs text-muted-foreground">
-                      追加日: {new Date(item.addedAt).toLocaleDateString("ja-JP")}
+                      追加日: {new Date(item.createdAt).toLocaleDateString("ja-JP")}
                     </p>
                   )}
                 </div>
                 <BacklogBadge status={item.status} itemType="GAME" />
               </div>
-              {item.notes && (
-                <p className="mt-2 text-sm text-muted-foreground">{item.notes}</p>
+              {item.personalNote && (
+                <p className="mt-2 text-sm text-muted-foreground">{item.personalNote}</p>
               )}
             </li>
           ))}
@@ -263,18 +265,18 @@ function SubscriptionList({
       <CardContent className="p-0">
         <ul className="divide-y divide-border">
           {items.map((item) => (
-            <li key={item.id} className="p-4 hover:bg-accent/50 transition-colors">
+            <li key={`${item.userId}-${item.seriesId}`} className="p-4 hover:bg-accent/50 transition-colors">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium">シリーズID: {item.seriesId}</p>
-                  {item.subscribedAt && (
+                  {item.createdAt && (
                     <p className="text-xs text-muted-foreground">
-                      購読開始: {new Date(item.subscribedAt).toLocaleDateString("ja-JP")}
+                      購読開始: {new Date(item.createdAt).toLocaleDateString("ja-JP")}
                     </p>
                   )}
                 </div>
                 <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
-                  {item.notifyOnRelease ? "🔔 通知ON" : "🔕 通知OFF"}
+                  {item.notifyPush ? "🔔 通知ON" : "🔕 通知OFF"}
                 </span>
               </div>
             </li>
