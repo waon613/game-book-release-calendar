@@ -1,0 +1,187 @@
+2026-01-26T14:44:45.023Z [INFO]: # Build environment configured with Standard build compute type: 8GiB Memory, 4vCPUs, 128GB Disk Space
+2026-01-26T14:44:45.843Z [INFO]: # Cloning repository: git@github.com:waon613/game-book-release-calendar.git
+2026-01-26T14:44:46.950Z [INFO]: 
+2026-01-26T14:44:46.950Z [INFO]: Cloning into 'game-book-release-calendar'...
+2026-01-26T14:44:46.951Z [INFO]: # Switching to commit: 55770d9bab7a26492c78fd27dc05a1a67f5e90da
+2026-01-26T14:44:46.971Z [INFO]: Note: switching to '55770d9bab7a26492c78fd27dc05a1a67f5e90da'.
+                                 You are in 'detached HEAD' state. You can look around, make experimental
+                                 changes and commit them, and you can discard any commits you make in this
+                                 state without impacting any branches by switching back to a branch.
+                                 If you want to create a new branch to retain commits you create, you may
+                                 do so (now or later) by using -c with the switch command. Example:
+                                 git switch -c <new-branch-name>
+                                 Or undo this operation with:
+                                 git switch -
+                                 Turn off this advice by setting config variable advice.detachedHead to false
+                                 HEAD is now at 55770d9 fix: Add Workbox dependencies for PWA
+2026-01-26T14:44:47.023Z [INFO]: Successfully cleaned up Git credentials
+2026-01-26T14:44:47.023Z [INFO]: # Checking for Git submodules at: /codebuild/output/src733680744/src/game-book-release-calendar/.gitmodules
+2026-01-26T14:44:47.033Z [INFO]: # Retrieving environment cache...
+2026-01-26T14:44:47.101Z [WARNING]: ! Unable to write cache: {"code":"ERR_BAD_REQUEST","message":"Request failed with status code 404"})}
+2026-01-26T14:44:47.102Z [INFO]: ---- Setting Up SSM Secrets ----
+2026-01-26T14:44:47.102Z [INFO]: SSM params {"Path":"/amplify/dkgndrbx9dc92/master/","WithDecryption":true}
+2026-01-26T14:44:47.540Z [INFO]: # No package override configuration found.
+2026-01-26T14:44:47.545Z [INFO]: # Retrieving cache...
+2026-01-26T14:44:47.589Z [INFO]: # Retrieved cache
+2026-01-26T14:44:52.317Z [INFO]: ## Starting Backend Build
+                                 # Starting phase: build
+                                 # Executing command: npm ci --cache .npm --prefer-offline
+2026-01-26T14:45:12.273Z [WARNING]: npm warn ERESOLVE overriding peer dependency
+2026-01-26T14:45:12.282Z [WARNING]: npm warn While resolving: @aws-amplify/plugin-types@1.10.1
+                                    npm warn Found: @aws-sdk/types@3.821.0
+                                    npm warn node_modules/@aws-amplify/data-construct/node_modules/@aws-amplify/ai-constructs/node_modules/@aws-amplify/plugin-types/node_modules/@aws-sdk/types
+                                    npm warn
+                                    npm warn Could not resolve dependency:
+                                    npm warn peer @aws-sdk/types@"^3.734.0" from @aws-amplify/plugin-types@1.10.1
+                                    npm warn node_modules/@aws-amplify/data-construct/node_modules/@aws-amplify/ai-constructs/node_modules/@aws-amplify/plugin-types
+                                    npm warn   @aws-amplify/plugin-types@"^1.10.1" from @aws-amplify/ai-constructs@1.5.3
+                                    npm warn   node_modules/@aws-amplify/data-construct/node_modules/@aws-amplify/ai-constructs
+2026-01-26T14:45:12.399Z [WARNING]: npm warn ERESOLVE overriding peer dependency
+2026-01-26T14:45:12.399Z [WARNING]: npm warn While resolving: @aws-amplify/plugin-types@1.10.1
+                                    npm warn Found: @aws-sdk/types@3.821.0
+                                    npm warn node_modules/@aws-amplify/graphql-api-construct/node_modules/@aws-amplify/ai-constructs/node_modules/@aws-amplify/plugin-types/node_modules/@aws-sdk/types
+                                    npm warn
+                                    npm warn Could not resolve dependency:
+                                    npm warn peer @aws-sdk/types@"^3.734.0" from @aws-amplify/plugin-types@1.10.1
+                                    npm warn node_modules/@aws-amplify/graphql-api-construct/node_modules/@aws-amplify/ai-constructs/node_modules/@aws-amplify/plugin-types
+                                    npm warn   @aws-amplify/plugin-types@"^1.10.1" from @aws-amplify/ai-constructs@1.5.3
+                                    npm warn   node_modules/@aws-amplify/graphql-api-construct/node_modules/@aws-amplify/ai-constructs
+2026-01-26T14:46:31.383Z [WARNING]: npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+2026-01-26T14:46:32.367Z [WARNING]: npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+2026-01-26T14:46:32.564Z [WARNING]: npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+2026-01-26T14:46:34.865Z [WARNING]: npm warn deprecated @babel/plugin-proposal-object-rest-spread@7.20.7: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-object-rest-spread instead.
+2026-01-26T14:46:34.884Z [WARNING]: npm warn deprecated @babel/plugin-proposal-class-properties@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-properties instead.
+2026-01-26T14:46:36.471Z [WARNING]: npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2026-01-26T14:46:41.478Z [WARNING]: npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2026-01-26T14:46:51.205Z [WARNING]: npm warn deprecated core-js@2.6.12: core-js@<3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.
+2026-01-26T14:47:02.596Z [INFO]: added 1750 packages, and audited 2600 packages in 2m
+2026-01-26T14:47:02.600Z [INFO]: 252 packages are looking for funding
+                                 run `npm fund` for details
+2026-01-26T14:47:02.703Z [INFO]: 28 vulnerabilities (25 low, 3 moderate)
+                                 To address issues that do not require attention, run:
+                                 npm audit fix
+                                 To address all issues (including breaking changes), run:
+                                 npm audit fix --force
+                                 Run `npm audit` for details.
+2026-01-26T14:47:02.741Z [INFO]: # Executing command: npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
+2026-01-26T14:47:07.458Z [INFO]: 2:47:06 PM Synthesizing backend...
+2026-01-26T14:47:07.463Z [INFO]: 
+2026-01-26T14:47:08.899Z [WARNING]: Bundling asset amplify-dkgndrbx9dc92-master-branch-5e13435485/AmplifyBranchLinker/CustomResourceLambda/Code/Stage...
+2026-01-26T14:47:09.269Z [WARNING]: ...a2f9ae29407605da71bb05781cc48b9c9a8cd77d6ed3a5-building/index.js  932.7kb
+                                    ⚡ Done in 76ms
+2026-01-26T14:47:09.793Z [WARNING]: WARNING: owners may reassign ownership for the following model(s) and role(s): UserInteraction: [owner], SeriesSubscription: [owner]. If this is not intentional, you may want to apply field-level authorization rules to these fields. To read more: https://docs.amplify.aws/cli/graphql/authorization-rules/#per-user--owner-based-data-access.
+2026-01-26T14:47:09.793Z [WARNING]: WARNING: Schema is using an @auth directive with deprecated provider 'iam'. Replace 'iam' provider with 'identityPool' provider.
+2026-01-26T14:47:10.681Z [INFO]: 2:47:10 PM ✔ Backend synthesized in 3.68 seconds
+2026-01-26T14:47:10.688Z [INFO]: 2:47:10 PM Running type checks...
+2026-01-26T14:47:20.571Z [INFO]: 2:47:20 PM ✔ Type checks completed in 9.89 seconds
+2026-01-26T14:47:20.589Z [INFO]: 2:47:20 PM Building and publishing assets...
+2026-01-26T14:47:21.548Z [INFO]: 2:47:21 PM ✔ Built and published assets
+2026-01-26T14:47:24.505Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485 |   0 | 2:47:22 PM | UPDATE_IN_PROGRESS | AWS::CloudFormation::Stack | amplify-dkgndrbx9dc92-master-branch-5e13435485 User Initiated
+2026-01-26T14:47:28.738Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485 |   0 | 2:47:26 PM | UPDATE_IN_PROGRESS | AWS::CloudFormation::Stack | auth.NestedStack/auth.NestedStackResource (auth179371D7)
+2026-01-26T14:47:28.742Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485 |   1 | 2:47:27 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | auth.NestedStack/auth.NestedStackResource (auth179371D7)
+                                 amplify-dkgndrbx9dc92-master-branch-5e13435485 |   1 | 2:47:28 PM | UPDATE_IN_PROGRESS | AWS::CloudFormation::Stack | data.NestedStack/data.NestedStackResource (data7552DF31)
+2026-01-26T14:47:30.906Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-data7552DF31-GTXSLU7K7MXS |   1 | 2:47:29 PM | UPDATE_IN_PROGRESS | AWS::CloudFormation::Stack | amplify-dkgndrbx9dc92-master-branch-5e13435485-data7552DF31-GTXSLU7K7MXS User Initiated
+2026-01-26T14:47:35.226Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-data7552DF31-GTXSLU7K7MXS |   1 | 2:47:34 PM | UPDATE_IN_PROGRESS | AWS::CloudFormation::Stack | data/amplifyData/AmplifyTableManager.NestedStack/AmplifyTableManager.NestedStackResource (amplifyDataAmplifyTableManagerNestedStackAmplifyTableManagerNestedStackResource86290833)
+2026-01-26T14:47:37.739Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-data7552DF31-GTXSLU7K7MXS |   2 | 2:47:35 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | data/amplifyData/AmplifyTableManager.NestedStack/AmplifyTableManager.NestedStackResource (amplifyDataAmplifyTableManagerNestedStackAmplifyTableManagerNestedStackResource86290833)
+2026-01-26T14:47:37.740Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-data7552DF31-GTXSLU7K7MXS |   2 | 2:47:36 PM | UPDATE_IN_PROGRESS | AWS::CloudFormation::Stack | data/amplifyData/Item.NestedStack/Item.NestedStackResource (amplifyDataItemNestedStackItemNestedStackResource06C37A7C)
+                                 amplify-dkgndrbx9dc92-master-branch-5e13435485-data7552DF31-GTXSLU7K7MXS |   2 | 2:47:36 PM | UPDATE_IN_PROGRESS | AWS::CloudFormation::Stack | data/amplifyData/PriceHistory.NestedStack/PriceHistory.NestedStackResource (amplifyDataPriceHistoryNestedStackPriceHistoryNestedStackResource2DDAF00E)
+2026-01-26T14:47:37.740Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-data7552DF31-GTXSLU7K7MXS |   2 | 2:47:36 PM | UPDATE_IN_PROGRESS | AWS::CloudFormation::Stack | data/amplifyData/UserInteraction.NestedStack/UserInteraction.NestedStackResource (amplifyDataUserInteractionNestedStackUserInteractionNestedStackResource02C423F7)
+2026-01-26T14:47:37.740Z [INFO]: 
+2026-01-26T14:47:37.740Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-data7552DF31-GTXSLU7K7MXS |   2 | 2:47:36 PM | UPDATE_IN_PROGRESS | AWS::CloudFormation::Stack | data/amplifyData/SeriesSubscription.NestedStack/SeriesSubscription.NestedStackResource (amplifyDataSeriesSubscriptionNestedStackSeriesSubscriptionNestedStackResource19A88897)
+                                 amplify-dkgndrbx9dc92-master-branch-5e13435485-data7552DF31-GTXSLU7K7MXS |   2 | 2:47:36 PM | UPDATE_IN_PROGRESS | AWS::CloudFormation::Stack | data/amplifyData/Series.NestedStack/Series.NestedStackResource (amplifyDataSeriesNestedStackSeriesNestedStackResource556CDB2F)
+2026-01-26T14:47:37.741Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-data7552DF31-GTXSLU7K7MXS |   3 | 2:47:37 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | data/amplifyData/UserInteraction.NestedStack/UserInteraction.NestedStackResource (amplifyDataUserInteractionNestedStackUserInteractionNestedStackResource02C423F7)
+2026-01-26T14:47:40.223Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-data7552DF31-GTXSLU7K7MXS |   4 | 2:47:37 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | data/amplifyData/Item.NestedStack/Item.NestedStackResource (amplifyDataItemNestedStackItemNestedStackResource06C37A7C)
+2026-01-26T14:47:40.228Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-data7552DF31-GTXSLU7K7MXS |   5 | 2:47:37 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | data/amplifyData/PriceHistory.NestedStack/PriceHistory.NestedStackResource (amplifyDataPriceHistoryNestedStackPriceHistoryNestedStackResource2DDAF00E)
+                                 amplify-dkgndrbx9dc92-master-branch-5e13435485-data7552DF31-GTXSLU7K7MXS |   6 | 2:47:37 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | data/amplifyData/SeriesSubscription.NestedStack/SeriesSubscription.NestedStackResource (amplifyDataSeriesSubscriptionNestedStackSeriesSubscriptionNestedStackResource19A88897)
+                                 amplify-dkgndrbx9dc92-master-branch-5e13435485-data7552DF31-GTXSLU7K7MXS |   7 | 2:47:37 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | data/amplifyData/Series.NestedStack/Series.NestedStackResource (amplifyDataSeriesNestedStackSeriesNestedStackResource556CDB2F)
+                                 amplify-dkgndrbx9dc92-master-branch-5e13435485-data7552DF31-GTXSLU7K7MXS |   8 | 2:47:39 PM | UPDATE_COMPLETE_CLEANUP_IN_PROGRESS | AWS::CloudFormation::Stack | amplify-dkgndrbx9dc92-master-branch-5e13435485-data7552DF31-GTXSLU7K7MXS
+2026-01-26T14:47:52.781Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485 |   9 | 2:47:50 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | data.NestedStack/data.NestedStackResource (data7552DF31)
+2026-01-26T14:47:52.785Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485 |  10 | 2:47:52 PM | UPDATE_COMPLETE_CLEANUP_IN_PROGRESS | AWS::CloudFormation::Stack | amplify-dkgndrbx9dc92-master-branch-5e13435485
+2026-01-26T14:47:55.289Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-data7552DF31-GTXSLU7K7MXS |   9 | 2:47:54 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | data/amplifyData/Series.NestedStack/Series.NestedStackResource (amplifyDataSeriesNestedStackSeriesNestedStackResource556CDB2F)
+2026-01-26T14:47:55.289Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-data7552DF31-GTXSLU7K7MXS |   8 | 2:47:54 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | data/amplifyData/Item.NestedStack/Item.NestedStackResource (amplifyDataItemNestedStackItemNestedStackResource06C37A7C)
+                                 amplify-dkgndrbx9dc92-master-branch-5e13435485-data7552DF31-GTXSLU7K7MXS |   7 | 2:47:54 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | data/amplifyData/UserInteraction.NestedStack/UserInteraction.NestedStackResource (amplifyDataUserInteractionNestedStackUserInteractionNestedStackResource02C423F7)
+2026-01-26T14:47:57.788Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-data7552DF31-GTXSLU7K7MXS |   6 | 2:47:54 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | data/amplifyData/PriceHistory.NestedStack/PriceHistory.NestedStackResource (amplifyDataPriceHistoryNestedStackPriceHistoryNestedStackResource2DDAF00E)
+2026-01-26T14:47:57.793Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-data7552DF31-GTXSLU7K7MXS |   5 | 2:47:54 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | data/amplifyData/SeriesSubscription.NestedStack/SeriesSubscription.NestedStackResource (amplifyDataSeriesSubscriptionNestedStackSeriesSubscriptionNestedStackResource19A88897)
+                                 amplify-dkgndrbx9dc92-master-branch-5e13435485-data7552DF31-GTXSLU7K7MXS |   4 | 2:47:55 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | data/amplifyData/AmplifyTableManager.NestedStack/AmplifyTableManager.NestedStackResource (amplifyDataAmplifyTableManagerNestedStackAmplifyTableManagerNestedStackResource86290833)
+                                 amplify-dkgndrbx9dc92-master-branch-5e13435485-data7552DF31-GTXSLU7K7MXS |   5 | 2:47:55 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | amplify-dkgndrbx9dc92-master-branch-5e13435485-data7552DF31-GTXSLU7K7MXS
+2026-01-26T14:48:04.062Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485 |   4 | 2:48:03 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | data.NestedStack/data.NestedStackResource (data7552DF31)
+2026-01-26T14:48:06.141Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485 |   3 | 2:48:04 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | auth.NestedStack/auth.NestedStackResource (auth179371D7)
+2026-01-26T14:48:06.142Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485 |   4 | 2:48:04 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | amplify-dkgndrbx9dc92-master-branch-5e13435485
+2026-01-26T14:48:07.955Z [INFO]: 2:48:07 PM ✔ Deployment completed in 46.407 seconds
+2026-01-26T14:48:07.961Z [INFO]: 2:48:07 PM AppSync API endpoint = https://axrnaec6o5fkvj4yvtri2mssv4.appsync-api.ap-northeast-1.amazonaws.com/graphql
+2026-01-26T14:48:08.364Z [INFO]: 2:48:08 PM File written: amplify_outputs.json
+2026-01-26T14:48:09.061Z [INFO]: # Completed phase: build
+                                 ## Completed Backend Build
+2026-01-26T14:48:09.065Z [INFO]: ## Starting Frontend Build
+2026-01-26T14:48:09.066Z [INFO]: # Starting phase: preBuild
+                                 # Executing command: npm ci --cache .npm --prefer-offline
+2026-01-26T14:48:11.532Z [WARNING]: npm warn ERESOLVE overriding peer dependency
+2026-01-26T14:48:11.538Z [WARNING]: npm warn While resolving: @aws-amplify/plugin-types@1.10.1
+                                    npm warn Found: @aws-sdk/types@3.821.0
+                                    npm warn node_modules/@aws-amplify/data-construct/node_modules/@aws-amplify/ai-constructs/node_modules/@aws-amplify/plugin-types/node_modules/@aws-sdk/types
+                                    npm warn
+                                    npm warn Could not resolve dependency:
+                                    npm warn peer @aws-sdk/types@"^3.734.0" from @aws-amplify/plugin-types@1.10.1
+                                    npm warn node_modules/@aws-amplify/data-construct/node_modules/@aws-amplify/ai-constructs/node_modules/@aws-amplify/plugin-types
+                                    npm warn   @aws-amplify/plugin-types@"^1.10.1" from @aws-amplify/ai-constructs@1.5.3
+                                    npm warn   node_modules/@aws-amplify/data-construct/node_modules/@aws-amplify/ai-constructs
+2026-01-26T14:48:11.652Z [WARNING]: npm warn ERESOLVE overriding peer dependency
+2026-01-26T14:48:11.652Z [WARNING]: npm warn While resolving: @aws-amplify/plugin-types@1.10.1
+                                    npm warn Found: @aws-sdk/types@3.821.0
+                                    npm warn node_modules/@aws-amplify/graphql-api-construct/node_modules/@aws-amplify/ai-constructs/node_modules/@aws-amplify/plugin-types/node_modules/@aws-sdk/types
+                                    npm warn
+                                    npm warn Could not resolve dependency:
+                                    npm warn peer @aws-sdk/types@"^3.734.0" from @aws-amplify/plugin-types@1.10.1
+                                    npm warn node_modules/@aws-amplify/graphql-api-construct/node_modules/@aws-amplify/ai-constructs/node_modules/@aws-amplify/plugin-types
+                                    npm warn   @aws-amplify/plugin-types@"^1.10.1" from @aws-amplify/ai-constructs@1.5.3
+                                    npm warn   node_modules/@aws-amplify/graphql-api-construct/node_modules/@aws-amplify/ai-constructs
+2026-01-26T14:49:40.732Z [WARNING]: npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+2026-01-26T14:49:40.846Z [WARNING]: npm warn deprecated @babel/plugin-proposal-class-properties@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-properties instead.
+2026-01-26T14:49:41.058Z [WARNING]: npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+2026-01-26T14:49:41.326Z [WARNING]: npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2026-01-26T14:49:41.367Z [WARNING]: npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2026-01-26T14:49:41.392Z [WARNING]: npm warn deprecated @babel/plugin-proposal-object-rest-spread@7.20.7: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-object-rest-spread instead.
+2026-01-26T14:49:42.901Z [WARNING]: npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+2026-01-26T14:49:50.118Z [WARNING]: npm warn deprecated core-js@2.6.12: core-js@<3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.
+2026-01-26T14:50:03.553Z [INFO]: added 1750 packages, and audited 2600 packages in 2m
+2026-01-26T14:50:03.559Z [INFO]: 252 packages are looking for funding
+                                 run `npm fund` for details
+2026-01-26T14:50:03.671Z [INFO]: 28 vulnerabilities (25 low, 3 moderate)
+                                 To address issues that do not require attention, run:
+                                 npm audit fix
+                                 To address all issues (including breaking changes), run:
+                                 npm audit fix --force
+                                 Run `npm audit` for details.
+2026-01-26T14:50:03.759Z [INFO]: # Completed phase: preBuild
+                                 # Starting phase: build
+                                 # Executing command: npm run build
+2026-01-26T14:50:03.870Z [INFO]: > game-book-release-calendar-platform@1.0.0 build
+                                 > next build
+2026-01-26T14:50:04.764Z [INFO]: ⚠ No build cache found. Please configure build caching for faster rebuilds. Read more: https://nextjs.org/docs/messages/no-cache
+2026-01-26T14:50:04.785Z [INFO]: Attention: Next.js now collects completely anonymous telemetry regarding usage.
+2026-01-26T14:50:04.785Z [INFO]: This information is used to shape Next.js' roadmap and prioritize features.
+                                 You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+                                 https://nextjs.org/telemetry
+2026-01-26T14:50:04.802Z [INFO]: ▲ Next.js 16.1.4 (Turbopack)
+                                 - Experiments (use with caution):
+2026-01-26T14:50:04.802Z [INFO]: ✓ optimizeCss
+2026-01-26T14:50:04.892Z [INFO]: Creating an optimized production build ...
+2026-01-26T14:50:18.745Z [INFO]: ✓ Compiled successfully in 13.3s
+2026-01-26T14:50:18.755Z [INFO]: Running TypeScript ...
+2026-01-26T14:50:31.856Z [WARNING]: Failed to compile.
+2026-01-26T14:50:31.861Z [WARNING]: ./public/sw.ts:12:41
+                                    Type error: Cannot find module 'workbox-cacheable-response' or its corresponding type declarations.
+                                    [0m [90m 10 |[39m } [36mfrom[39m [32m"workbox-strategies"[39m[33m;[39m
+                                    [90m 11 |[39m [36mimport[39m { [33mExpirationPlugin[39m } [36mfrom[39m [32m"workbox-expiration"[39m[33m;[39m
+                                    [31m[1m>[22m[39m[90m 12 |[39m [36mimport[39m { [33mCacheableResponsePlugin[39m } [36mfrom[39m [32m"workbox-cacheable-response"[39m[33m;[39m
+                                    [90m    |[39m                                         [31m[1m^[22m[39m
+                                    [90m 13 |[39m
+                                    [90m 14 |[39m declare [36mconst[39m self[33m:[39m [33mServiceWorkerGlobalScope[39m[33m;[39m
+                                    [90m 15 |[39m[0m
+2026-01-26T14:50:31.940Z [WARNING]: Next.js build worker exited with code: 1 and signal: null
+2026-01-26T14:50:31.994Z [ERROR]: !!! Build failed
+2026-01-26T14:50:31.994Z [INFO]: Please read more about Amplify Hosting's support for SSR frameworks to find if your build failure is related to an unsupported feature: https://docs.aws.amazon.com/amplify/latest/userguide/amplify-ssr-framework-support.html. You may also find this troubleshooting guide useful: https://docs.aws.amazon.com/amplify/latest/userguide/troubleshooting-ssr-deployment.html
+2026-01-26T14:50:31.994Z [ERROR]: !!! Error: Command failed with exit code 1
+2026-01-26T14:50:31.994Z [INFO]: # Starting environment caching...
+2026-01-26T14:50:31.994Z [INFO]: # Environment caching completed
+
