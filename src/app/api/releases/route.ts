@@ -108,11 +108,12 @@ export async function GET(request: Request) {
       });
     }
 
-    // 日付でソート
-    items.sort(
-      (a, b) =>
-        new Date(a.releaseDate).getTime() - new Date(b.releaseDate).getTime()
-    );
+    // 日付でソート（releaseDateがある項目のみ）
+    items.sort((a, b) => {
+      const dateA = a.releaseDate ? new Date(a.releaseDate).getTime() : 0;
+      const dateB = b.releaseDate ? new Date(b.releaseDate).getTime() : 0;
+      return dateA - dateB;
+    });
 
     return NextResponse.json({
       success: true,
