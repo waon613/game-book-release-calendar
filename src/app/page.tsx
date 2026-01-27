@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { CalendarView } from "@/components/calendar/CalendarView";
 import {
   ClearTimeSlider,
@@ -20,8 +20,8 @@ import { formatPriceJPY } from "@/lib/utils/currency";
 import { formatDateJST, getDayOfWeekJP } from "@/lib/utils/date";
 import type { Item } from "@/types";
 
-// サンプルデータ（開発用）
-const SAMPLE_ITEMS: Item[] = [
+// フォールバック用サンプルデータ（APIが失敗した場合）
+const FALLBACK_ITEMS: Item[] = [
   {
     id: "1",
     type: "GAME",
@@ -29,7 +29,7 @@ const SAMPLE_ITEMS: Item[] = [
     releaseDate: "2026-02-15",
     coverUrl: "",
     criticScore: 92,
-    estimatedClearTime: 2400, // 40時間
+    estimatedClearTime: 2400,
     currentPrice: 9680,
     listPrice: 9680,
     platform: ["PlayStation 5", "PC (Steam)"],
@@ -37,68 +37,6 @@ const SAMPLE_ITEMS: Item[] = [
     affiliateLinks: {
       amazon_jp: "https://www.amazon.co.jp/dp/BXXXXXXXX?tag=example-22",
       rakuten: "https://item.rakuten.co.jp/example/game001/",
-    },
-  },
-  {
-    id: "2",
-    type: "GAME",
-    title: "ゼルダの伝説 新作",
-    releaseDate: "2026-02-20",
-    coverUrl: "",
-    criticScore: 95,
-    estimatedClearTime: 3000, // 50時間
-    currentPrice: 7920,
-    listPrice: 7920,
-    platform: ["Nintendo Switch"],
-    genre: ["アクション", "アドベンチャー"],
-    affiliateLinks: {
-      amazon_jp: "https://www.amazon.co.jp/dp/BXXXXXXXX?tag=example-22",
-      rakuten: "https://item.rakuten.co.jp/example/game002/",
-    },
-  },
-  {
-    id: "3",
-    type: "BOOK",
-    title: "呪術廻戦 30巻",
-    releaseDate: "2026-01-30",
-    coverUrl: "",
-    currentPrice: 528,
-    listPrice: 528,
-    genre: ["マンガ"],
-    affiliateLinks: {
-      amazon_jp: "https://www.amazon.co.jp/dp/BXXXXXXXX?tag=example-22",
-      rakuten: "https://books.rakuten.co.jp/rb/example/",
-    },
-  },
-  {
-    id: "4",
-    type: "BOOK",
-    title: "ソードアート・オンライン 30巻",
-    releaseDate: "2026-02-10",
-    coverUrl: "",
-    currentPrice: 715,
-    listPrice: 715,
-    genre: ["ライトノベル"],
-    affiliateLinks: {
-      amazon_jp: "https://www.amazon.co.jp/dp/BXXXXXXXX?tag=example-22",
-      rakuten: "https://books.rakuten.co.jp/rb/example/",
-    },
-  },
-  {
-    id: "5",
-    type: "GAME",
-    title: "モンスターハンター ワイルズ",
-    releaseDate: "2026-02-28",
-    coverUrl: "",
-    criticScore: 88,
-    estimatedClearTime: 1800, // 30時間
-    currentPrice: 8990,
-    listPrice: 8990,
-    platform: ["PlayStation 5", "Xbox Series X|S", "PC (Steam)"],
-    genre: ["アクション"],
-    affiliateLinks: {
-      amazon_jp: "https://www.amazon.co.jp/dp/BXXXXXXXX?tag=example-22",
-      rakuten: "https://item.rakuten.co.jp/example/game003/",
     },
   },
 ];
@@ -206,6 +144,11 @@ function ItemDetailModal({ item, onClose }: ItemDetailModalProps) {
 }
 
 export default function HomePage() {
+  // データ取得状態
+  const [items, setItems] = useState<Item[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   // フィルター状態
   const [clearTimeRange, setClearTimeRange] = useState<[number, number]>([0, 6000]);
   const [selectedScores, setSelectedScores] = useState<number[]>([0]);
@@ -215,9 +158,37 @@ export default function HomePage() {
   const [showFilters, setShowFilters] = useState(false);
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
 
+  // APIからデータを取得
+  useEffect(() => {
+    async function fetchReleases() {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const response = await fetch("/api/releases");
+        const data = await response.json();
+        
+        if (data.success && data.items.length > 0) {
+          setItems(data.items);
+        } else {
+          // APIが空の結果を返した場合、フォールバック
+          console.warn("API returned empty results, using fallback data");
+          setItems(FALLBACK_ITEMS);
+        }
+      } catch (err) {
+        console.error("Failed to fetch releases:", err);
+        setError("データの取得に失敗しました");
+        setItems(FALLBACK_ITEMS);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchReleases();
+  }, []);
+
   // フィルタリングされたアイテム
   const filteredItems = useMemo(() => {
-    return SAMPLE_ITEMS.filter((item) => {
+    return items.filter((item) => {
       // タイプフィルター
       if (itemType !== "ALL" && item.type !== itemType) return false;
 
@@ -256,7 +227,7 @@ export default function HomePage() {
 
       return true;
     });
-  }, [clearTimeRange, selectedScores, selectedGenres, selectedPlatforms, itemType]);
+  }, [items, clearTimeRange, selectedScores, selectedGenres, selectedPlatforms, itemType]);
 
   return (
     <main className="min-h-screen bg-background">
@@ -326,15 +297,34 @@ export default function HomePage() {
 
           {/* メインコンテンツ */}
           <div className="flex-1">
-            <CalendarView
-              items={filteredItems}
-              onItemClick={(item) => setSelectedItem(item)}
-            />
+            {isLoading ? (
+              <div className="flex items-center justify-center h-64">
+                <div className="text-center">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+                  <p className="text-muted-foreground">リリース情報を取得中...</p>
+                </div>
+              </div>
+            ) : error ? (
+              <div className="text-center py-8 text-red-500">
+                <p>{error}</p>
+                <p className="text-sm text-muted-foreground mt-2">サンプルデータを表示しています</p>
+              </div>
+            ) : (
+              <>
+                <CalendarView
+                  items={filteredItems}
+                  onItemClick={(item) => setSelectedItem(item)}
+                />
 
-            {/* 結果サマリー */}
-            <div className="mt-4 text-sm text-muted-foreground text-center">
-              {filteredItems.length}件のリリース予定
-            </div>
+                {/* 結果サマリー */}
+                <div className="mt-4 text-sm text-muted-foreground text-center">
+                  {filteredItems.length}件のリリース予定
+                  {items !== FALLBACK_ITEMS && (
+                    <span className="ml-2 text-xs text-green-600">（APIから取得）</span>
+                  )}
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
