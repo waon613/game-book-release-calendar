@@ -1,32 +1,43 @@
 /**
  * API テストエンドポイント
- * 楽天API・IGDB APIの動作確認用
+ * 楽天API・IGDB APIの動作確認用（Secrets Manager対応）
  */
 import { NextResponse } from "next/server";
 import { RakutenBooksClient } from "@/lib/api/rakuten";
 import { IGDBClient } from "@/lib/api/igdb";
+import { getApiSecrets } from "@/lib/secrets";
 
 export async function GET() {
   const results: {
     rakuten: { status: string; data?: unknown; error?: string };
     igdb: { status: string; data?: unknown; error?: string };
-    envCheck: Record<string, boolean>;
+    secretsManager: { status: string; error?: string };
   } = {
     rakuten: { status: "pending" },
     igdb: { status: "pending" },
-    envCheck: {
-      RAKUTEN_APP_ID: !!process.env.RAKUTEN_APP_ID,
-      RAKUTEN_AFFILIATE_ID: !!process.env.RAKUTEN_AFFILIATE_ID,
-      IGDB_CLIENT_ID: !!process.env.IGDB_CLIENT_ID,
-      IGDB_CLIENT_SECRET: !!process.env.IGDB_CLIENT_SECRET,
-    },
+    secretsManager: { status: "pending" },
   };
+
+  // Secrets Manager からAPIキーを取得
+  let secrets;
+  try {
+    secrets = await getApiSecrets();
+    results.secretsManager = {
+      status: "success",
+    };
+  } catch (error) {
+    results.secretsManager = {
+      status: "error",
+      error: error instanceof Error ? error.message : "Unknown error",
+    };
+    return NextResponse.json(results);
+  }
 
   // 楽天APIテスト
   try {
     const rakutenClient = new RakutenBooksClient(
-      process.env.RAKUTEN_APP_ID || "",
-      process.env.RAKUTEN_AFFILIATE_ID || ""
+      secrets.RAKUTEN_APP_ID,
+      secrets.RAKUTEN_AFFILIATE_ID
     );
     const books = await rakutenClient.searchBooks({
       keyword: "呪術廻戦",
@@ -50,8 +61,8 @@ export async function GET() {
   // IGDB APIテスト
   try {
     const igdbClient = new IGDBClient(
-      process.env.IGDB_CLIENT_ID || "",
-      process.env.IGDB_CLIENT_SECRET || ""
+      secrets.IGDB_CLIENT_ID,
+      secrets.IGDB_CLIENT_SECRET
     );
     const games = await igdbClient.searchGames({
       search: "Zelda",
