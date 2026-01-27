@@ -1,5 +1,6 @@
 /**
  * AWS Secrets Manager からシークレットを取得するユーティリティ
+ * フォールバック: 環境変数 → Secrets Manager
  */
 import {
   SecretsManagerClient,
@@ -24,19 +25,37 @@ export interface ApiSecrets {
 }
 
 /**
- * Secrets Manager からAPIキーを取得
+ * 環境変数からAPIキーを取得（フォールバック用）
  */
-export async function getApiSecrets(): Promise<ApiSecrets> {
-  // 開発環境では環境変数から取得
-  if (process.env.NODE_ENV === "development") {
+function getSecretsFromEnv(): ApiSecrets | null {
+  const rakutenAppId = process.env.RAKUTEN_APP_ID;
+  const rakutenAffiliateId = process.env.RAKUTEN_AFFILIATE_ID;
+  const igdbClientId = process.env.IGDB_CLIENT_ID;
+  const igdbClientSecret = process.env.IGDB_CLIENT_SECRET;
+
+  // 必須の環境変数が設定されているかチェック
+  if (rakutenAppId && rakutenAffiliateId && igdbClientId && igdbClientSecret) {
     return {
-      RAKUTEN_APP_ID: process.env.RAKUTEN_APP_ID || "",
-      RAKUTEN_AFFILIATE_ID: process.env.RAKUTEN_AFFILIATE_ID || "",
-      IGDB_CLIENT_ID: process.env.IGDB_CLIENT_ID || "",
-      IGDB_CLIENT_SECRET: process.env.IGDB_CLIENT_SECRET || "",
+      RAKUTEN_APP_ID: rakutenAppId,
+      RAKUTEN_AFFILIATE_ID: rakutenAffiliateId,
+      IGDB_CLIENT_ID: igdbClientId,
+      IGDB_CLIENT_SECRET: igdbClientSecret,
       GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID || "",
       GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET || "",
     };
+  }
+  return null;
+}
+
+/**
+ * Secrets Manager からAPIキーを取得
+ * フォールバック: 環境変数 → Secrets Manager
+ */
+export async function getApiSecrets(): Promise<ApiSecrets> {
+  // まず環境変数を試す（開発環境 & ビルド時埋め込み対応）
+  const envSecrets = getSecretsFromEnv();
+  if (envSecrets) {
+    return envSecrets;
   }
 
   // キャッシュが有効ならそれを使用
@@ -44,6 +63,7 @@ export async function getApiSecrets(): Promise<ApiSecrets> {
     return cachedSecrets;
   }
 
+  // Secrets Manager から取得
   const client = new SecretsManagerClient({ region: REGION });
 
   try {
