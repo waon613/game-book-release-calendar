@@ -19,35 +19,37 @@ export async function GET(request: Request) {
   try {
     const secrets = await getApiSecrets();
     const items: Item[] = [];
+    const errors: string[] = [];
 
     // 書籍データ取得（楽天API）
     if (!type || type === "all" || type === "book") {
-      const rakutenClient = new RakutenBooksClient(
-        secrets.RAKUTEN_APP_ID,
-        secrets.RAKUTEN_AFFILIATE_ID
-      );
+      try {
+        const rakutenClient = new RakutenBooksClient(
+          secrets.RAKUTEN_APP_ID,
+          secrets.RAKUTEN_AFFILIATE_ID
+        );
 
-      // 人気コミック・ライトノベルの新刊を取得
-      const [comics, lightNovels] = await Promise.all([
-        rakutenClient.searchComics({ sort: "sales", hits: 10 }),
-        rakutenClient.searchBooks({ 
-          booksGenreId: "001004", // ライトノベル
-          sort: "sales", 
-          hits: 10 
-        }),
-      ]);
+        // 人気コミック・ライトノベルの新刊を取得
+        const [comics, lightNovels] = await Promise.all([
+          rakutenClient.searchComics({ sort: "sales", hits: 10 }),
+          rakutenClient.searchBooks({ 
+            booksGenreId: "001004", // ライトノベル
+            sort: "sales", 
+            hits: 10 
+          }),
+        ]);
 
-      // 楽天データをItem形式に変換
-      comics.forEach((book, index) => {
-        if (book.salesDate) {
-          items.push({
-            id: `rakuten-comic-${index}`,
-            type: "BOOK",
-            title: book.title,
-            releaseDate: parseRakutenDate(book.salesDate),
-            coverUrl: book.largeImageUrl || book.mediumImageUrl || "",
-            currentPrice: book.itemPrice,
-            listPrice: book.itemPrice,
+        // 楽天データをItem形式に変換
+        comics.forEach((book, index) => {
+          if (book.salesDate) {
+            items.push({
+              id: `rakuten-comic-${index}`,
+              type: "BOOK",
+              title: book.title,
+              releaseDate: parseRakutenDate(book.salesDate),
+              coverUrl: book.largeImageUrl || book.mediumImageUrl || "",
+              currentPrice: book.itemPrice,
+              listPrice: book.itemPrice,
             genre: ["マンガ"],
             affiliateLinks: {
               rakuten: book.affiliateUrl || book.itemUrl,
@@ -73,19 +75,24 @@ export async function GET(request: Request) {
           });
         }
       });
+      } catch (rakutenError) {
+        console.error("Rakuten API Error:", rakutenError);
+        errors.push(`Rakuten: ${rakutenError instanceof Error ? rakutenError.message : "Unknown error"}`);
+      }
     }
 
     // ゲームデータ取得（IGDB API）
     if (!type || type === "all" || type === "game") {
-      const igdbClient = new IGDBClient(
-        secrets.IGDB_CLIENT_ID,
-        secrets.IGDB_CLIENT_SECRET
-      );
+      try {
+        const igdbClient = new IGDBClient(
+          secrets.IGDB_CLIENT_ID,
+          secrets.IGDB_CLIENT_SECRET
+        );
 
-      // 今後発売予定のゲームを取得
-      const games = await igdbClient.getUpcomingGames(undefined, 20);
+        // 今後発売予定のゲームを取得
+        const games = await igdbClient.getUpcomingGames(undefined, 20);
 
-      // IGDBデータをItem形式に変換
+        // IGDBデータをItem形式に変換
       games.forEach((game) => {
         if (game.first_release_date) {
           const releaseDate = new Date(game.first_release_date * 1000);
@@ -106,6 +113,10 @@ export async function GET(request: Request) {
           });
         }
       });
+      } catch (igdbError) {
+        console.error("IGDB API Error:", igdbError);
+        errors.push(`IGDB: ${igdbError instanceof Error ? igdbError.message : "Unknown error"}`);
+      }
     }
 
     // 日付でソート（releaseDateがある項目のみ）
@@ -119,6 +130,7 @@ export async function GET(request: Request) {
       success: true,
       items,
       count: items.length,
+      errors: errors.length > 0 ? errors : undefined,
     });
   } catch (error) {
     console.error("API Error:", error);
