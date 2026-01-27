@@ -155,8 +155,6 @@ export class RakutenBooksClient {
     const data: RakutenAPIResponse<RakutenBookItem> = await response.json();
     return data.Items.map((item) => item.Item);
   }
-    return data.Items.map((item) => item.Item);
-  }
 
   /**
    * 新刊を取得（発売日順）
