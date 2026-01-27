@@ -8,7 +8,7 @@
 const RAKUTEN_API_BASE = "https://app.rakuten.co.jp/services/api";
 const BOOKS_SEARCH_ENDPOINT = "/BooksBook/Search/20170404";
 const BOOKS_GAME_ENDPOINT = "/BooksGame/Search/20120927";
-const BOOKS_COMIC_ENDPOINT = "/BooksComic/Search/20110421";
+// Note: BooksComic/Search doesn't exist, use BooksBook/Search with booksGenreId instead
 
 // 楽天ブックスのジャンルID
 export const RAKUTEN_GENRE_IDS = {
@@ -137,10 +137,15 @@ export class RakutenBooksClient {
   }
 
   /**
-   * コミックを検索
+   * コミックを検索（BooksBook APIを使用し、コミックジャンルを指定）
    */
   async searchComics(params: RakutenSearchParams): Promise<RakutenBookItem[]> {
-    const url = this.buildUrl(BOOKS_COMIC_ENDPOINT, params);
+    // BooksComic/Search は存在しないため、BooksBook/Search を使用
+    const comicParams = {
+      ...params,
+      booksGenreId: params.booksGenreId || "001001", // デフォルトでコミックジャンル
+    };
+    const url = this.buildUrl(BOOKS_SEARCH_ENDPOINT, comicParams);
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -148,6 +153,8 @@ export class RakutenBooksClient {
     }
 
     const data: RakutenAPIResponse<RakutenBookItem> = await response.json();
+    return data.Items.map((item) => item.Item);
+  }
     return data.Items.map((item) => item.Item);
   }
 

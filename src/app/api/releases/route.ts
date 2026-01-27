@@ -32,7 +32,6 @@ export async function GET(request: Request) {
         // 人気コミック・ライトノベルの新刊を取得
         const [comics, lightNovels] = await Promise.all([
           rakutenClient.searchComics({ 
-            booksGenreId: "001001", // コミック
             sort: "sales", 
             hits: 10 
           }),
