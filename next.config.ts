@@ -35,6 +35,13 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_TIMEZONE: "Asia/Tokyo",
     NEXT_PUBLIC_LOCALE: "ja-JP",
     NEXT_PUBLIC_CURRENCY: "JPY",
+    // API Keys (ビルド時に環境変数から取得)
+    RAKUTEN_APP_ID: process.env.RAKUTEN_APP_ID,
+    RAKUTEN_AFFILIATE_ID: process.env.RAKUTEN_AFFILIATE_ID,
+    IGDB_CLIENT_ID: process.env.IGDB_CLIENT_ID,
+    IGDB_CLIENT_SECRET: process.env.IGDB_CLIENT_SECRET,
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   },
 
   // パフォーマンス最適化
