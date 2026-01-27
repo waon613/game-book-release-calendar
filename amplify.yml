@@ -10,6 +10,9 @@ frontend:
     preBuild:
       commands:
         - npm ci --cache .npm --prefer-offline
+        - echo "=== Debug Environment Variables ==="
+        - echo "RAKUTEN_APP_ID is set: $(if [ -n \"$RAKUTEN_APP_ID\" ]; then echo yes; else echo no; fi)"
+        - echo "IGDB_CLIENT_ID is set: $(if [ -n \"$IGDB_CLIENT_ID\" ]; then echo yes; else echo no; fi)"
         - |
           echo "RAKUTEN_APP_ID=$RAKUTEN_APP_ID" >> .env.production
           echo "RAKUTEN_AFFILIATE_ID=$RAKUTEN_AFFILIATE_ID" >> .env.production
@@ -19,6 +22,7 @@ frontend:
           echo "GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET" >> .env.production
           echo "NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL" >> .env.production
           echo "NEXT_PUBLIC_SITE_NAME=$NEXT_PUBLIC_SITE_NAME" >> .env.production
+        - cat .env.production
     build:
       commands:
         - npm run build
