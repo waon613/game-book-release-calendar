@@ -10,6 +10,15 @@ frontend:
     preBuild:
       commands:
         - npm ci --cache .npm --prefer-offline
+        - |
+          echo "RAKUTEN_APP_ID=$RAKUTEN_APP_ID" >> .env.production
+          echo "RAKUTEN_AFFILIATE_ID=$RAKUTEN_AFFILIATE_ID" >> .env.production
+          echo "IGDB_CLIENT_ID=$IGDB_CLIENT_ID" >> .env.production
+          echo "IGDB_CLIENT_SECRET=$IGDB_CLIENT_SECRET" >> .env.production
+          echo "GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID" >> .env.production
+          echo "GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET" >> .env.production
+          echo "NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL" >> .env.production
+          echo "NEXT_PUBLIC_SITE_NAME=$NEXT_PUBLIC_SITE_NAME" >> .env.production
     build:
       commands:
         - npm run build
