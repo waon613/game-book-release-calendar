@@ -1,0 +1,1 @@
+export { AmplifyProvider } from "./AmplifyProvider";

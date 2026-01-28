@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, Calendar, List } from "lucide-react";
+import { ChevronLeft, ChevronRight, Calendar, List, CalendarDays } from "lucide-react";
 import {
   formatDateJST,
   getDayOfWeekJP,
@@ -12,6 +12,7 @@ import {
   formatRelativeDateJST,
 } from "@/lib/utils/date";
 import { formatPriceJPY } from "@/lib/utils/currency";
+import { FavoriteButton } from "@/components/user/FavoriteButton";
 import type { Item } from "@/types";
 
 interface CalendarViewProps {
@@ -71,12 +72,41 @@ export function CalendarView({ items, onItemClick }: CalendarViewProps) {
   const today = new Date();
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
   const [currentMonth, setCurrentMonth] = useState(today.getMonth() + 1);
-  const [viewMode, setViewMode] = useState<"calendar" | "list">("calendar");
+  const [viewMode, setViewMode] = useState<"calendar" | "week" | "list">("calendar");
+
+  // 週表示用の状態
+  const [currentWeekStart, setCurrentWeekStart] = useState(() => {
+    const d = new Date(today);
+    d.setDate(d.getDate() - d.getDay()); // 週の開始日（日曜日）
+    return d;
+  });
 
   const monthDays = useMemo(
     () => generateMonthDays(currentYear, currentMonth),
     [currentYear, currentMonth]
   );
+
+  // 週表示用の日付配列
+  const weekDays = useMemo(() => {
+    const days: Date[] = [];
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(currentWeekStart);
+      d.setDate(d.getDate() + i);
+      days.push(d);
+    }
+    return days;
+  }, [currentWeekStart]);
+
+  // 週表示用のアイテム
+  const weekItems = useMemo(() => {
+    return items.filter((item) => {
+      if (!item.releaseDate) return false;
+      const date = new Date(item.releaseDate);
+      return weekDays.some(
+        (d) => d.toISOString().split("T")[0] === item.releaseDate
+      );
+    });
+  }, [items, weekDays]);
 
   const itemsByDate = useMemo(() => groupItemsByDate(items), [items]);
 
@@ -119,9 +149,24 @@ export function CalendarView({ items, onItemClick }: CalendarViewProps) {
   const goToToday = () => {
     setCurrentYear(today.getFullYear());
     setCurrentMonth(today.getMonth() + 1);
+    const d = new Date(today);
+    d.setDate(d.getDate() - d.getDay());
+    setCurrentWeekStart(d);
   };
 
-  const weekDays = ["日", "月", "火", "水", "木", "金", "土"];
+  const goToPrevWeek = () => {
+    const d = new Date(currentWeekStart);
+    d.setDate(d.getDate() - 7);
+    setCurrentWeekStart(d);
+  };
+
+  const goToNextWeek = () => {
+    const d = new Date(currentWeekStart);
+    d.setDate(d.getDate() + 7);
+    setCurrentWeekStart(d);
+  };
+
+  const weekDayLabels = ["日", "月", "火", "水", "木", "金", "土"];
 
   return (
     <div className="w-full">
@@ -151,7 +196,16 @@ export function CalendarView({ items, onItemClick }: CalendarViewProps) {
             className="flex items-center gap-1"
           >
             <Calendar className="w-4 h-4" />
-            月表示
+            月
+          </Button>
+          <Button
+            variant={viewMode === "week" ? "default" : "ghost"}
+            size="sm"
+            onClick={() => setViewMode("week")}
+            className="flex items-center gap-1"
+          >
+            <CalendarDays className="w-4 h-4" />
+            週
           </Button>
           <Button
             variant={viewMode === "list" ? "default" : "ghost"}
@@ -165,12 +219,27 @@ export function CalendarView({ items, onItemClick }: CalendarViewProps) {
         </div>
       </div>
 
+      {/* 週表示ナビゲーション（週表示の場合） */}
+      {viewMode === "week" && (
+        <div className="flex items-center justify-center gap-2 mb-4">
+          <Button variant="outline" size="icon" onClick={goToPrevWeek}>
+            <ChevronLeft className="w-4 h-4" />
+          </Button>
+          <span className="text-sm font-medium min-w-[200px] text-center">
+            {weekDays[0].getFullYear()}年{weekDays[0].getMonth() + 1}月{weekDays[0].getDate()}日 〜 {weekDays[6].getMonth() + 1}月{weekDays[6].getDate()}日
+          </span>
+          <Button variant="outline" size="icon" onClick={goToNextWeek}>
+            <ChevronRight className="w-4 h-4" />
+          </Button>
+        </div>
+      )}
+
       {/* カレンダー表示 */}
       {viewMode === "calendar" && (
         <div className="bg-card rounded-lg border shadow-sm overflow-hidden">
           {/* 曜日ヘッダー */}
           <div className="grid grid-cols-7 border-b">
-            {weekDays.map((day, i) => (
+            {weekDayLabels.map((day, i) => (
               <div
                 key={day}
                 className={`p-2 text-center text-sm font-medium ${
@@ -242,6 +311,80 @@ export function CalendarView({ items, onItemClick }: CalendarViewProps) {
         </div>
       )}
 
+      {/* 週表示 */}
+      {viewMode === "week" && (
+        <div className="bg-card rounded-lg border shadow-sm overflow-hidden">
+          {/* 曜日＋日付ヘッダー */}
+          <div className="grid grid-cols-7 border-b">
+            {weekDays.map((date, i) => {
+              const isToday = date.toDateString() === today.toDateString();
+              return (
+                <div
+                  key={i}
+                  className={`p-2 text-center ${
+                    i === 0 ? "text-red-500" : i === 6 ? "text-blue-500" : ""
+                  }`}
+                >
+                  <div className="text-xs font-medium">{weekDayLabels[i]}</div>
+                  <div
+                    className={`text-lg font-bold ${
+                      isToday
+                        ? "bg-primary text-primary-foreground rounded-full w-8 h-8 mx-auto flex items-center justify-center"
+                        : ""
+                    }`}
+                  >
+                    {date.getDate()}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* 日ごとのアイテム */}
+          <div className="grid grid-cols-7 min-h-[300px]">
+            {weekDays.map((date, i) => {
+              const dateKey = date.toISOString().split("T")[0];
+              const dayItems = itemsByDate.get(dateKey) || [];
+              return (
+                <div
+                  key={i}
+                  className={`p-2 border-r min-h-[200px] ${
+                    i === 0 ? "bg-red-50/30 dark:bg-red-900/10" : 
+                    i === 6 ? "bg-blue-50/30 dark:bg-blue-900/10" : ""
+                  }`}
+                >
+                  <div className="space-y-2">
+                    {dayItems.map((item) => (
+                      <div
+                        key={item.id}
+                        onClick={() => onItemClick?.(item)}
+                        className={`text-xs p-2 rounded cursor-pointer hover:opacity-80 ${
+                          item.type === "GAME"
+                            ? "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200"
+                            : "bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200"
+                        }`}
+                      >
+                        <div className="font-medium truncate">{item.title}</div>
+                        {item.currentPrice && (
+                          <div className="text-xs mt-1 opacity-75">
+                            {formatPriceJPY(item.currentPrice)}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                    {dayItems.length === 0 && (
+                      <div className="text-xs text-muted-foreground text-center py-4">
+                        -
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {/* リスト表示 */}
       {viewMode === "list" && (
         <div className="bg-card rounded-lg border shadow-sm overflow-hidden">
@@ -254,11 +397,13 @@ export function CalendarView({ items, onItemClick }: CalendarViewProps) {
               {monthItems.map((item) => (
                 <div
                   key={item.id}
-                  onClick={() => onItemClick?.(item)}
-                  className="p-4 hover:bg-muted/50 cursor-pointer flex gap-4"
+                  className="p-4 hover:bg-muted/50 flex gap-4"
                 >
                   {/* カバー画像 */}
-                  <div className="w-16 h-20 bg-muted rounded overflow-hidden flex-shrink-0">
+                  <div 
+                    onClick={() => onItemClick?.(item)}
+                    className="w-16 h-20 bg-muted rounded overflow-hidden flex-shrink-0 cursor-pointer"
+                  >
                     {item.coverUrl ? (
                       <img
                         src={item.coverUrl}
@@ -273,7 +418,10 @@ export function CalendarView({ items, onItemClick }: CalendarViewProps) {
                   </div>
 
                   {/* 情報 */}
-                  <div className="flex-1 min-w-0">
+                  <div 
+                    className="flex-1 min-w-0 cursor-pointer"
+                    onClick={() => onItemClick?.(item)}
+                  >
                     <div className="flex items-center gap-2 mb-1">
                       <span
                         className={`text-xs px-2 py-0.5 rounded ${
@@ -320,6 +468,15 @@ export function CalendarView({ items, onItemClick }: CalendarViewProps) {
                         ))}
                       </div>
                     )}
+                  </div>
+
+                  {/* お気に入りボタン */}
+                  <div className="flex-shrink-0 self-center">
+                    <FavoriteButton 
+                      itemId={item.id} 
+                      itemTitle={item.title} 
+                      variant="icon"
+                    />
                   </div>
                 </div>
               ))}

@@ -8,6 +8,9 @@ import {
   GenreSelector,
 } from "@/components/filters";
 import { AmazonButton, RakutenButton } from "@/components/affiliate";
+import { AuthButton } from "@/components/auth/AuthButton";
+import { FavoriteButton, FavoriteBadge } from "@/components/user/FavoriteButton";
+import { ReminderButton, NotificationBadge } from "@/components/user/NotificationButton";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -134,6 +137,19 @@ function ItemDetailModal({ item, onClose }: ItemDetailModalProps) {
             )}
           </div>
 
+          {/* お気に入り＆リマインダーボタン */}
+          <div className="flex gap-2 pt-2">
+            <FavoriteButton itemId={item.id} itemTitle={item.title} className="flex-1" />
+            {item.releaseDate && (
+              <ReminderButton 
+                itemId={item.id} 
+                itemTitle={item.title} 
+                releaseDate={item.releaseDate} 
+                className="flex-1" 
+              />
+            )}
+          </div>
+
           <Button variant="outline" className="w-full" onClick={onClose}>
             閉じる
           </Button>
@@ -238,9 +254,11 @@ export default function HomePage() {
             <h1 className="text-xl md:text-2xl font-bold">
               📅 ゲーム＆書籍リリースカレンダー
             </h1>
-            <Button variant="outline" size="sm">
-              ログイン
-            </Button>
+            <div className="flex items-center gap-3">
+              <FavoriteBadge />
+              <NotificationBadge />
+              <AuthButton />
+            </div>
           </div>
         </div>
       </header>

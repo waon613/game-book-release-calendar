@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
+import { AmplifyProvider } from "@/components/providers/AmplifyProvider";
 
 export const metadata: Metadata = {
   title: "ゲーム＆書籍リリースカレンダー | 発売日・価格・評価をチェック",
@@ -51,7 +52,9 @@ export default function RootLayout({
         )}
       </head>
       <body className="min-h-screen bg-background font-sans antialiased">
-        {children}
+        <AmplifyProvider>
+          {children}
+        </AmplifyProvider>
       </body>
     </html>
   );
