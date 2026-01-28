@@ -1,0 +1,148 @@
+2026-01-28T12:18:12.661Z [INFO]: # Build environment configured with Standard build compute type: 8GiB Memory, 4vCPUs, 128GB Disk Space
+2026-01-28T12:18:13.455Z [INFO]: # Cloning repository: git@github.com:waon613/game-book-release-calendar.git
+2026-01-28T12:18:14.645Z [INFO]: 
+2026-01-28T12:18:14.645Z [INFO]: Cloning into 'game-book-release-calendar'...
+2026-01-28T12:18:14.646Z [INFO]: # Switching to commit: 91de069959bab4dbc4179718b7814d582916c2df
+2026-01-28T12:18:14.670Z [INFO]: Note: switching to '91de069959bab4dbc4179718b7814d582916c2df'.
+                                 You are in 'detached HEAD' state. You can look around, make experimental
+                                 changes and commit them, and you can discard any commits you make in this
+                                 state without impacting any branches by switching back to a branch.
+                                 If you want to create a new branch to retain commits you create, you may
+                                 do so (now or later) by using -c with the switch command. Example:
+                                 git switch -c <new-branch-name>
+                                 Or undo this operation with:
+                                 git switch -
+                                 Turn off this advice by setting config variable advice.detachedHead to false
+                                 HEAD is now at 91de069 fix: simplify amplify.yml - remove complex bash conditionals
+2026-01-28T12:18:14.721Z [INFO]: Successfully cleaned up Git credentials
+2026-01-28T12:18:14.722Z [INFO]: # Checking for Git submodules at: /codebuild/output/src1159965166/src/game-book-release-calendar/.gitmodules
+2026-01-28T12:18:14.732Z [INFO]: # Retrieving environment cache...
+2026-01-28T12:18:14.828Z [INFO]: # Retrieved environment cache
+2026-01-28T12:18:14.829Z [INFO]: ---- Setting Up SSM Secrets ----
+2026-01-28T12:18:14.829Z [INFO]: SSM params {"Path":"/amplify/dkgndrbx9dc92/master/","WithDecryption":true}
+2026-01-28T12:18:15.280Z [INFO]: # No package override configuration found.
+2026-01-28T12:18:15.285Z [INFO]: # Retrieving cache...
+2026-01-28T12:18:35.326Z [INFO]: # Extracting cache...
+2026-01-28T12:19:13.740Z [INFO]: # Extraction completed
+2026-01-28T12:19:14.010Z [INFO]: # Retrieved cache
+2026-01-28T12:19:18.767Z [INFO]: ## Starting Backend Build
+                                 # Starting phase: build
+                                 # Executing command: echo "Backend deployment skipped - deploy manually with npx ampx pipeline-deploy"
+2026-01-28T12:19:18.771Z [INFO]: Backend deployment skipped - deploy manually with npx ampx pipeline-deploy
+                                 # Completed phase: build
+                                 ## Completed Backend Build
+                                 {"backendDuration": 0}
+                                 ## Starting Frontend Build
+                                 # Starting phase: preBuild
+                                 # Executing command: node --version
+2026-01-28T12:19:18.773Z [INFO]: v22.18.0
+2026-01-28T12:19:18.774Z [INFO]: # Executing command: npm --version
+2026-01-28T12:19:24.051Z [INFO]: 10.9.3
+2026-01-28T12:19:24.055Z [INFO]: # Executing command: npm ci --cache .npm --prefer-offline
+2026-01-28T12:19:37.969Z [WARNING]: npm warn ERESOLVE overriding peer dependency
+2026-01-28T12:19:37.973Z [WARNING]: npm warn While resolving: @aws-amplify/plugin-types@1.10.1
+                                    npm warn Found: @aws-sdk/types@3.821.0
+                                    npm warn node_modules/@aws-amplify/data-construct/node_modules/@aws-amplify/ai-constructs/node_modules/@aws-amplify/plugin-types/node_modules/@aws-sdk/types
+                                    npm warn
+                                    npm warn Could not resolve dependency:
+                                    npm warn peer @aws-sdk/types@"^3.734.0" from @aws-amplify/plugin-types@1.10.1
+                                    npm warn node_modules/@aws-amplify/data-construct/node_modules/@aws-amplify/ai-constructs/node_modules/@aws-amplify/plugin-types
+                                    npm warn   @aws-amplify/plugin-types@"^1.10.1" from @aws-amplify/ai-constructs@1.5.3
+                                    npm warn   node_modules/@aws-amplify/data-construct/node_modules/@aws-amplify/ai-constructs
+2026-01-28T12:19:38.076Z [WARNING]: npm warn ERESOLVE overriding peer dependency
+2026-01-28T12:19:38.076Z [WARNING]: npm warn While resolving: @aws-amplify/plugin-types@1.10.1
+                                    npm warn Found: @aws-sdk/types@3.821.0
+                                    npm warn node_modules/@aws-amplify/graphql-api-construct/node_modules/@aws-amplify/ai-constructs/node_modules/@aws-amplify/plugin-types/node_modules/@aws-sdk/types
+                                    npm warn
+                                    npm warn Could not resolve dependency:
+                                    npm warn peer @aws-sdk/types@"^3.734.0" from @aws-amplify/plugin-types@1.10.1
+                                    npm warn node_modules/@aws-amplify/graphql-api-construct/node_modules/@aws-amplify/ai-constructs/node_modules/@aws-amplify/plugin-types
+                                    npm warn   @aws-amplify/plugin-types@"^1.10.1" from @aws-amplify/ai-constructs@1.5.3
+                                    npm warn   node_modules/@aws-amplify/graphql-api-construct/node_modules/@aws-amplify/ai-constructs
+2026-01-28T12:20:53.965Z [WARNING]: npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+2026-01-28T12:20:54.070Z [WARNING]: npm warn deprecated @babel/plugin-proposal-class-properties@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-properties instead.
+2026-01-28T12:20:54.267Z [WARNING]: npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+2026-01-28T12:20:54.510Z [WARNING]: npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2026-01-28T12:20:54.549Z [WARNING]: npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2026-01-28T12:20:54.573Z [WARNING]: npm warn deprecated @babel/plugin-proposal-object-rest-spread@7.20.7: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-object-rest-spread instead.
+2026-01-28T12:20:56.432Z [WARNING]: npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+2026-01-28T12:21:03.383Z [WARNING]: npm warn deprecated core-js@2.6.12: core-js@<3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.
+2026-01-28T12:21:21.744Z [INFO]: added 1754 packages, and audited 2604 packages in 2m
+2026-01-28T12:21:21.748Z [INFO]: 252 packages are looking for funding
+                                 run `npm fund` for details
+2026-01-28T12:21:21.864Z [INFO]: 29 vulnerabilities (25 low, 4 moderate)
+                                 To address issues that do not require attention, run:
+                                 npm audit fix
+                                 To address all issues (including breaking changes), run:
+                                 npm audit fix --force
+                                 Run `npm audit` for details.
+2026-01-28T12:21:21.935Z [INFO]: # Executing command: cat > .env.production << EOF
+                                 RAKUTEN_APP_ID=${RAKUTEN_APP_ID}
+                                 RAKUTEN_AFFILIATE_ID=${RAKUTEN_AFFILIATE_ID}
+                                 IGDB_CLIENT_ID=${IGDB_CLIENT_ID}
+                                 IGDB_CLIENT_SECRET=${IGDB_CLIENT_SECRET}
+                                 GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+                                 GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+                                 NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
+                                 NEXT_PUBLIC_SITE_NAME=${NEXT_PUBLIC_SITE_NAME}
+                                 NEXT_PUBLIC_GA_MEASUREMENT_ID=${NEXT_PUBLIC_GA_MEASUREMENT_ID}
+                                 EOF
+2026-01-28T12:21:21.937Z [INFO]: # Completed phase: preBuild
+                                 # Starting phase: build
+                                 # Executing command: npm run build
+2026-01-28T12:21:22.134Z [INFO]: > game-book-release-calendar-platform@1.0.0 build
+                                 > next build
+2026-01-28T12:21:23.031Z [INFO]: ▲ Next.js 16.1.4 (Turbopack)
+2026-01-28T12:21:23.032Z [INFO]: - Environments: .env.production
+                                 - Experiments (use with caution):
+                                 ✓ optimizeCss
+2026-01-28T12:21:23.103Z [INFO]: Creating an optimized production build ...
+2026-01-28T12:21:38.539Z [WARNING]: Turbopack build encountered 1 warnings:
+                                    ./src/lib/amplify/client.ts:15:27
+                                    Module not found: Can't resolve '../../../amplify_outputs.json'
+                                    [0m [90m 13 |[39m   [36mtry[39m {
+                                    [90m 14 |[39m     [90m// amplify_outputs.json は npx ampx sandbox 実行時に生成される[39m
+                                    [31m[1m>[22m[39m[90m 15 |[39m     [36mconst[39m outputs [33m=[39m [36mawait[39m [36mimport[39m([32m"../../../amplify_outputs.json"[39m)[33m;[39m
+                                    [90m    |[39m                           [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+                                    [90m 16 |[39m     [33mAmplify[39m[33m.[39mconfigure(outputs[33m.[39m[36mdefault[39m)[33m;[39m
+                                    [90m 17 |[39m     isConfigured [33m=[39m [36mtrue[39m[33m;[39m
+                                    [90m 18 |[39m   } [36mcatch[39m (error) {[0m
+                                    Import traces:
+                                    Client Component Browser:
+                                    ./src/lib/amplify/client.ts [Client Component Browser]
+                                    ./src/lib/amplify/auth.tsx [Client Component Browser]
+                                    ./src/app/mypage/page.tsx [Client Component Browser]
+                                    ./src/app/mypage/page.tsx [Server Component]
+                                    Client Component SSR:
+                                    ./src/lib/amplify/client.ts [Client Component SSR]
+                                    ./src/lib/amplify/auth.tsx [Client Component SSR]
+                                    ./src/app/mypage/page.tsx [Client Component SSR]
+                                    ./src/app/mypage/page.tsx [Server Component]
+                                    https://nextjs.org/docs/messages/module-not-found
+2026-01-28T12:21:38.895Z [WARNING]: 
+2026-01-28T12:21:38.895Z [WARNING]: > Build error occurred
+2026-01-28T12:21:38.901Z [WARNING]: Error: Turbopack build failed with 1 errors:
+                                    ./src/components/providers/AmplifyProvider.tsx:5:1
+                                    Module not found: Can't resolve '../../../amplify_outputs.json'
+                                    [0m [90m 3 |[39m [36mimport[39m { useEffect } [36mfrom[39m [32m"react"[39m[33m;[39m
+                                    [90m 4 |[39m [36mimport[39m { [33mAmplify[39m } [36mfrom[39m [32m"aws-amplify"[39m[33m;[39m
+                                    [31m[1m>[22m[39m[90m 5 |[39m [36mimport[39m outputs [36mfrom[39m [32m"../../../amplify_outputs.json"[39m[33m;[39m
+                                    [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+                                    [90m 6 |[39m
+                                    [90m 7 |[39m [90m// Amplify設定を初期化[39m
+                                    [90m 8 |[39m [33mAmplify[39m[33m.[39mconfigure(outputs[33m,[39m { ssr[33m:[39m [36mtrue[39m })[33m;[39m[0m
+                                    Import trace:
+                                    Server Component:
+                                    ./src/components/providers/AmplifyProvider.tsx
+                                    ./src/app/layout.tsx
+                                    https://nextjs.org/docs/messages/module-not-found
+                                    at <unknown> (./src/components/providers/AmplifyProvider.tsx:5:1)
+                                    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+2026-01-28T12:21:39.027Z [ERROR]: !!! Build failed
+2026-01-28T12:21:39.027Z [INFO]: Please read more about Amplify Hosting's support for SSR frameworks to find if your build failure is related to an unsupported feature: https://docs.aws.amazon.com/amplify/latest/userguide/amplify-ssr-framework-support.html. You may also find this troubleshooting guide useful: https://docs.aws.amazon.com/amplify/latest/userguide/troubleshooting-ssr-deployment.html
+2026-01-28T12:21:39.028Z [ERROR]: !!! Error: Command failed with exit code 1
+2026-01-28T12:21:39.028Z [INFO]: # Starting environment caching...
+2026-01-28T12:21:39.028Z [INFO]: # Uploading environment cache artifact...
+2026-01-28T12:21:39.139Z [INFO]: # Uploaded environment cache artifact
+2026-01-28T12:21:39.140Z [INFO]: # Environment caching completed
+

@@ -1,0 +1,174 @@
+2026-01-28T13:11:18.005Z [INFO]: # Build environment configured with Standard build compute type: 8GiB Memory, 4vCPUs, 128GB Disk Space
+2026-01-28T13:11:19.332Z [INFO]: # Cloning repository: git@github.com:waon613/game-book-release-calendar.git
+2026-01-28T13:11:20.623Z [INFO]: 
+2026-01-28T13:11:20.623Z [INFO]: Cloning into 'game-book-release-calendar'...
+2026-01-28T13:11:20.623Z [INFO]: # Switching to commit: e9eb778637720f71bcf8eccbc027c75856b74819
+2026-01-28T13:11:20.648Z [INFO]: Note: switching to 'e9eb778637720f71bcf8eccbc027c75856b74819'.
+                                 You are in 'detached HEAD' state. You can look around, make experimental
+                                 changes and commit them, and you can discard any commits you make in this
+                                 state without impacting any branches by switching back to a branch.
+                                 If you want to create a new branch to retain commits you create, you may
+                                 do so (now or later) by using -c with the switch command. Example:
+                                 git switch -c <new-branch-name>
+                                 Or undo this operation with:
+                                 git switch -
+                                 Turn off this advice by setting config variable advice.detachedHead to false
+                                 HEAD is now at e9eb778 feat: enable backend deployment for Cognito auth
+2026-01-28T13:11:20.784Z [INFO]: Successfully cleaned up Git credentials
+2026-01-28T13:11:20.784Z [INFO]: # Checking for Git submodules at: /codebuild/output/src2095707940/src/game-book-release-calendar/.gitmodules
+2026-01-28T13:11:20.795Z [INFO]: # Retrieving environment cache...
+2026-01-28T13:11:20.902Z [INFO]: # Retrieved environment cache
+2026-01-28T13:11:20.903Z [INFO]: ---- Setting Up SSM Secrets ----
+2026-01-28T13:11:20.903Z [INFO]: SSM params {"Path":"/amplify/dkgndrbx9dc92/master/","WithDecryption":true}
+2026-01-28T13:11:21.448Z [INFO]: # No package override configuration found.
+2026-01-28T13:11:21.566Z [INFO]: # Retrieving cache...
+2026-01-28T13:11:43.517Z [INFO]: # Extracting cache...
+2026-01-28T13:12:21.886Z [INFO]: # Extraction completed
+2026-01-28T13:12:22.151Z [INFO]: # Retrieved cache
+2026-01-28T13:12:27.602Z [INFO]: ## Starting Backend Build
+2026-01-28T13:12:27.606Z [INFO]: # Starting phase: build
+                                 # Executing command: npm ci --cache .npm --prefer-offline
+2026-01-28T13:12:50.129Z [WARNING]: npm warn ERESOLVE overriding peer dependency
+2026-01-28T13:12:50.133Z [WARNING]: npm warn While resolving: @aws-amplify/plugin-types@1.10.1
+                                    npm warn Found: @aws-sdk/types@3.821.0
+                                    npm warn node_modules/@aws-amplify/data-construct/node_modules/@aws-amplify/ai-constructs/node_modules/@aws-amplify/plugin-types/node_modules/@aws-sdk/types
+                                    npm warn
+                                    npm warn Could not resolve dependency:
+                                    npm warn peer @aws-sdk/types@"^3.734.0" from @aws-amplify/plugin-types@1.10.1
+                                    npm warn node_modules/@aws-amplify/data-construct/node_modules/@aws-amplify/ai-constructs/node_modules/@aws-amplify/plugin-types
+                                    npm warn   @aws-amplify/plugin-types@"^1.10.1" from @aws-amplify/ai-constructs@1.5.3
+                                    npm warn   node_modules/@aws-amplify/data-construct/node_modules/@aws-amplify/ai-constructs
+2026-01-28T13:12:50.242Z [WARNING]: npm warn ERESOLVE overriding peer dependency
+2026-01-28T13:12:50.242Z [WARNING]: npm warn While resolving: @aws-amplify/plugin-types@1.10.1
+                                    npm warn Found: @aws-sdk/types@3.821.0
+                                    npm warn node_modules/@aws-amplify/graphql-api-construct/node_modules/@aws-amplify/ai-constructs/node_modules/@aws-amplify/plugin-types/node_modules/@aws-sdk/types
+                                    npm warn
+                                    npm warn Could not resolve dependency:
+                                    npm warn peer @aws-sdk/types@"^3.734.0" from @aws-amplify/plugin-types@1.10.1
+                                    npm warn node_modules/@aws-amplify/graphql-api-construct/node_modules/@aws-amplify/ai-constructs/node_modules/@aws-amplify/plugin-types
+                                    npm warn   @aws-amplify/plugin-types@"^1.10.1" from @aws-amplify/ai-constructs@1.5.3
+                                    npm warn   node_modules/@aws-amplify/graphql-api-construct/node_modules/@aws-amplify/ai-constructs
+2026-01-28T13:14:06.082Z [WARNING]: npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+2026-01-28T13:14:06.187Z [WARNING]: npm warn deprecated @babel/plugin-proposal-class-properties@7.18.6: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-class-properties instead.
+2026-01-28T13:14:06.376Z [WARNING]: npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+2026-01-28T13:14:06.605Z [WARNING]: npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2026-01-28T13:14:06.642Z [WARNING]: npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+2026-01-28T13:14:06.665Z [WARNING]: npm warn deprecated @babel/plugin-proposal-object-rest-spread@7.20.7: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-object-rest-spread instead.
+2026-01-28T13:14:08.389Z [WARNING]: npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+2026-01-28T13:14:15.127Z [WARNING]: npm warn deprecated core-js@2.6.12: core-js@<3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.
+2026-01-28T13:14:33.272Z [INFO]: added 1754 packages, and audited 2604 packages in 2m
+2026-01-28T13:14:33.276Z [INFO]: 252 packages are looking for funding
+                                 run `npm fund` for details
+2026-01-28T13:14:33.401Z [INFO]: 29 vulnerabilities (25 low, 4 moderate)
+                                 To address issues that do not require attention, run:
+                                 npm audit fix
+                                 To address all issues (including breaking changes), run:
+                                 npm audit fix --force
+                                 Run `npm audit` for details.
+2026-01-28T13:14:33.475Z [INFO]: # Executing command: npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
+2026-01-28T13:14:38.224Z [INFO]: 1:14:37 PM Synthesizing backend...
+2026-01-28T13:14:38.230Z [INFO]: 
+2026-01-28T13:14:39.661Z [WARNING]: Bundling asset amplify-dkgndrbx9dc92-master-branch-5e13435485/AmplifyBranchLinker/CustomResourceLambda/Code/Stage...
+2026-01-28T13:14:39.994Z [WARNING]: ...50132a6a755e153faea7a17323c7739ac8ffbbe90ea60c-building/index.js  932.7kb
+                                    ⚡ Done in 71ms
+2026-01-28T13:14:40.108Z [WARNING]: Bundling asset amplify-dkgndrbx9dc92-master-branch-5e13435485/auth/AmplifySecretFetcherResourceProviderLambda/Code/Stage...
+2026-01-28T13:14:40.417Z [WARNING]: ...682835b4ab3c5bb16b85d172c94746d9fb044ee6d3afe6-building/index.js  714.3kb
+                                    ⚡ Done in 48ms
+2026-01-28T13:14:40.855Z [WARNING]: WARNING: owners may reassign ownership for the following model(s) and role(s): UserInteraction: [owner], SeriesSubscription: [owner]. If this is not intentional, you may want to apply field-level authorization rules to these fields. To read more: https://docs.amplify.aws/cli/graphql/authorization-rules/#per-user--owner-based-data-access.
+2026-01-28T13:14:40.855Z [WARNING]: WARNING: Schema is using an @auth directive with deprecated provider 'iam'. Replace 'iam' provider with 'identityPool' provider.
+2026-01-28T13:14:41.696Z [INFO]: 1:14:41 PM ✔ Backend synthesized in 3.98 seconds
+2026-01-28T13:14:41.702Z [INFO]: 1:14:41 PM Running type checks...
+2026-01-28T13:14:50.702Z [INFO]: 1:14:50 PM ✔ Type checks completed in 9 seconds
+2026-01-28T13:14:50.718Z [INFO]: 1:14:50 PM Building and publishing assets...
+2026-01-28T13:14:52.458Z [INFO]: 1:14:52 PM ✔ Built and published assets
+2026-01-28T13:14:55.423Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485 |   0 | 1:14:53 PM | UPDATE_IN_PROGRESS | AWS::CloudFormation::Stack | amplify-dkgndrbx9dc92-master-branch-5e13435485 User Initiated
+2026-01-28T13:14:57.561Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485 |   0 | 1:14:57 PM | UPDATE_IN_PROGRESS | AWS::CloudFormation::Stack | auth.NestedStack/auth.NestedStackResource (auth179371D7)
+2026-01-28T13:14:59.689Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   0 | 1:14:57 PM | UPDATE_IN_PROGRESS | AWS::CloudFormation::Stack | amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R User Initiated
+2026-01-28T13:15:03.984Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   0 | 1:15:01 PM | CREATE_IN_PROGRESS | AWS::IAM::Role | auth/AmplifySecretFetcherResourceProvider/framework-onEvent/ServiceRole (AmplifySecretFetcherResourceProviderframeworkonEventServiceRole0941C6B4)
+2026-01-28T13:15:03.989Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   0 | 1:15:01 PM | CREATE_IN_PROGRESS | AWS::IAM::Role | auth/AmplifySecretFetcherResourceProviderLambda/ServiceRole (AmplifySecretFetcherResourceProviderLambdaServiceRole3F02FB0D)
+                                 amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   0 | 1:15:01 PM | CREATE_IN_PROGRESS | AWS::Cognito::UserPoolDomain | auth/amplifyAuth/UserPool/UserPoolDomain (amplifyAuthUserPoolUserPoolDomain1F688B5B)
+                                 amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   0 | 1:15:02 PM | UPDATE_IN_PROGRESS | AWS::CDK::Metadata | auth/CDKMetadata/Default (CDKMetadata)
+                                 amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   0 | 1:15:03 PM | CREATE_IN_PROGRESS | AWS::IAM::Role | auth/AmplifySecretFetcherResourceProviderLambda/ServiceRole (AmplifySecretFetcherResourceProviderLambdaServiceRole3F02FB0D) Resource creation Initiated
+                                 amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   0 | 1:15:03 PM | CREATE_IN_PROGRESS | AWS::IAM::Role | auth/AmplifySecretFetcherResourceProvider/framework-onEvent/ServiceRole (AmplifySecretFetcherResourceProviderframeworkonEventServiceRole0941C6B4) Resource creation Initiated
+                                 amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   1 | 1:15:03 PM | UPDATE_COMPLETE | AWS::CDK::Metadata | auth/CDKMetadata/Default (CDKMetadata)
+2026-01-28T13:15:06.133Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   1 | 1:15:04 PM | CREATE_IN_PROGRESS | AWS::Cognito::UserPoolDomain | auth/amplifyAuth/UserPool/UserPoolDomain (amplifyAuthUserPoolUserPoolDomain1F688B5B) Resource creation Initiated
+2026-01-28T13:15:06.134Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   2 | 1:15:04 PM | CREATE_COMPLETE | AWS::Cognito::UserPoolDomain | auth/amplifyAuth/UserPool/UserPoolDomain (amplifyAuthUserPoolUserPoolDomain1F688B5B)
+2026-01-28T13:15:21.003Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   3 | 1:15:20 PM | CREATE_COMPLETE | AWS::IAM::Role | auth/AmplifySecretFetcherResourceProviderLambda/ServiceRole (AmplifySecretFetcherResourceProviderLambdaServiceRole3F02FB0D)
+2026-01-28T13:15:21.007Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   4 | 1:15:20 PM | CREATE_COMPLETE | AWS::IAM::Role | auth/AmplifySecretFetcherResourceProvider/framework-onEvent/ServiceRole (AmplifySecretFetcherResourceProviderframeworkonEventServiceRole0941C6B4)
+                                 amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   4 | 1:15:20 PM | CREATE_IN_PROGRESS | AWS::IAM::Policy | auth/AmplifySecretFetcherResourceProviderLambda/ServiceRole/DefaultPolicy (AmplifySecretFetcherResourceProviderLambdaServiceRoleDefaultPolicy080657DD)
+2026-01-28T13:15:23.146Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   4 | 1:15:22 PM | CREATE_IN_PROGRESS | AWS::IAM::Policy | auth/AmplifySecretFetcherResourceProviderLambda/ServiceRole/DefaultPolicy (AmplifySecretFetcherResourceProviderLambdaServiceRoleDefaultPolicy080657DD) Resource creation Initiated
+2026-01-28T13:15:38.092Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   5 | 1:15:37 PM | CREATE_COMPLETE | AWS::IAM::Policy | auth/AmplifySecretFetcherResourceProviderLambda/ServiceRole/DefaultPolicy (AmplifySecretFetcherResourceProviderLambdaServiceRoleDefaultPolicy080657DD)
+2026-01-28T13:15:40.203Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   5 | 1:15:39 PM | CREATE_IN_PROGRESS | AWS::Lambda::Function | auth/AmplifySecretFetcherResourceProviderLambda (AmplifySecretFetcherResourceProviderLambda27823B35)
+2026-01-28T13:15:42.312Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   5 | 1:15:41 PM | CREATE_IN_PROGRESS | AWS::Lambda::Function | auth/AmplifySecretFetcherResourceProviderLambda (AmplifySecretFetcherResourceProviderLambda27823B35) Resource creation Initiated
+2026-01-28T13:15:48.700Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   6 | 1:15:47 PM | CREATE_COMPLETE | AWS::Lambda::Function | auth/AmplifySecretFetcherResourceProviderLambda (AmplifySecretFetcherResourceProviderLambda27823B35)
+2026-01-28T13:15:48.705Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   6 | 1:15:48 PM | CREATE_IN_PROGRESS | AWS::IAM::Policy | auth/AmplifySecretFetcherResourceProvider/framework-onEvent/ServiceRole/DefaultPolicy (AmplifySecretFetcherResourceProviderframeworkonEventServiceRoleDefaultPolicy749EBE05)
+2026-01-28T13:15:50.836Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   6 | 1:15:50 PM | CREATE_IN_PROGRESS | AWS::IAM::Policy | auth/AmplifySecretFetcherResourceProvider/framework-onEvent/ServiceRole/DefaultPolicy (AmplifySecretFetcherResourceProviderframeworkonEventServiceRoleDefaultPolicy749EBE05) Resource creation Initiated
+2026-01-28T13:16:07.874Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   7 | 1:16:05 PM | CREATE_COMPLETE | AWS::IAM::Policy | auth/AmplifySecretFetcherResourceProvider/framework-onEvent/ServiceRole/DefaultPolicy (AmplifySecretFetcherResourceProviderframeworkonEventServiceRoleDefaultPolicy749EBE05)
+2026-01-28T13:16:07.878Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   7 | 1:16:07 PM | CREATE_IN_PROGRESS | AWS::Lambda::Function | auth/AmplifySecretFetcherResourceProvider/framework-onEvent (AmplifySecretFetcherResourceProviderframeworkonEventA62AE3A8)
+2026-01-28T13:16:10.007Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   7 | 1:16:09 PM | CREATE_IN_PROGRESS | AWS::Lambda::Function | auth/AmplifySecretFetcherResourceProvider/framework-onEvent (AmplifySecretFetcherResourceProviderframeworkonEventA62AE3A8) Resource creation Initiated
+2026-01-28T13:16:16.369Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   8 | 1:16:15 PM | CREATE_COMPLETE | AWS::Lambda::Function | auth/AmplifySecretFetcherResourceProvider/framework-onEvent (AmplifySecretFetcherResourceProviderframeworkonEventA62AE3A8)
+2026-01-28T13:16:16.376Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   8 | 1:16:16 PM | CREATE_IN_PROGRESS | Custom::AmplifySecretFetcherResource | auth/AmplifySecretFetcherResource/Default (AmplifySecretFetcherResource)
+2026-01-28T13:16:22.761Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   8 | 1:16:20 PM | CREATE_IN_PROGRESS | Custom::AmplifySecretFetcherResource | auth/AmplifySecretFetcherResource/Default (AmplifySecretFetcherResource) Resource creation Initiated
+2026-01-28T13:16:22.765Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   8 | 1:16:20 PM | CREATE_FAILED | Custom::AmplifySecretFetcherResource | auth/AmplifySecretFetcherResource/Default (AmplifySecretFetcherResource) Received response status [FAILED] from custom resource. Message returned: Failed to retrieve backend secret 'GOOGLE_CLIENT_ID' for 'dkgndrbx9dc92'. Reason: {"cause":{"name":"ParameterNotFound","$fault":"client","$metadata":{"httpStatusCode":400,"requestId":"ad6fa42d-2d87-4b66-b783-6830e53ddd9f","attempts":1,"totalRetryDelay":0},"__type":"ParameterNotFound","message":"UnknownError"},"httpStatusCode":400,"name":"SecretError"}
+                                 Logs: /aws/lambda/amplify-dkgndrbx9dc92-mas-AmplifySecretFetcherReso-lz5ItxoDepJ6
+                                 at handleCreateUpdateEvent (/var/task/index.js:17887:15)
+                                 at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+                                 at async Runtime.handler (/var/task/index.js:17845:23) (RequestId: c692a26b-16c2-49ad-a0e0-4d29bc2ba3d0)
+                                 amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   8 | 1:16:21 PM | UPDATE_ROLLBACK_IN_PROGRESS | AWS::CloudFormation::Stack | amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R The following resource(s) failed to create: [AmplifySecretFetcherResource].
+2026-01-28T13:16:33.350Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485 |   8 | 1:16:31 PM | UPDATE_FAILED | AWS::CloudFormation::Stack | auth.NestedStack/auth.NestedStackResource (auth179371D7) Embedded stack arn:aws:cloudformation:ap-northeast-1:217935001100:stack/amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R/6549e140-fac4-11f0-9a9d-0ea177b43b83 was not successfully updated. Currently in UPDATE_ROLLBACK_IN_PROGRESS with reason: The following resource(s) failed to create: [AmplifySecretFetcherResource].
+2026-01-28T13:16:33.354Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485 |   8 | 1:16:32 PM | UPDATE_ROLLBACK_IN_PROGRESS | AWS::CloudFormation::Stack | amplify-dkgndrbx9dc92-master-branch-5e13435485 The following resource(s) failed to update: [auth179371D7].
+2026-01-28T13:16:35.470Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485 |   8 | 1:16:34 PM | UPDATE_IN_PROGRESS | AWS::CloudFormation::Stack | auth.NestedStack/auth.NestedStackResource (auth179371D7)
+2026-01-28T13:16:46.107Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   8 | 1:16:45 PM | UPDATE_IN_PROGRESS | AWS::CDK::Metadata | auth/CDKMetadata/Default (CDKMetadata)
+2026-01-28T13:16:48.245Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   7 | 1:16:46 PM | UPDATE_COMPLETE | AWS::CDK::Metadata | auth/CDKMetadata/Default (CDKMetadata)
+2026-01-28T13:16:48.246Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   8 | 1:16:47 PM | UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS | AWS::CloudFormation::Stack | amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R
+2026-01-28T13:16:58.873Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485 |   9 | 1:16:56 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | auth.NestedStack/auth.NestedStackResource (auth179371D7)
+2026-01-28T13:16:58.880Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485 |  10 | 1:16:57 PM | UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS | AWS::CloudFormation::Stack | amplify-dkgndrbx9dc92-master-branch-5e13435485
+2026-01-28T13:17:01.007Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |  10 | 1:17:00 PM | DELETE_IN_PROGRESS | AWS::CloudFormation::CustomResource | auth/AmplifySecretFetcherResource/Default (AmplifySecretFetcherResource)
+2026-01-28T13:17:01.007Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |  10 | 1:17:00 PM | DELETE_IN_PROGRESS | AWS::Cognito::UserPoolDomain | auth/amplifyAuth/UserPool/UserPoolDomain (amplifyAuthUserPoolUserPoolDomain1F688B5B)
+2026-01-28T13:17:03.139Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |  11 | 1:17:02 PM | DELETE_COMPLETE | AWS::CloudFormation::CustomResource | auth/AmplifySecretFetcherResource/Default (AmplifySecretFetcherResource)
+2026-01-28T13:17:03.143Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |  11 | 1:17:02 PM | DELETE_IN_PROGRESS | AWS::Lambda::Function | auth/AmplifySecretFetcherResourceProvider/framework-onEvent (AmplifySecretFetcherResourceProviderframeworkonEventA62AE3A8)
+2026-01-28T13:17:07.399Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |  10 | 1:17:06 PM | DELETE_COMPLETE | AWS::Lambda::Function | auth/AmplifySecretFetcherResourceProvider/framework-onEvent (AmplifySecretFetcherResourceProviderframeworkonEventA62AE3A8)
+2026-01-28T13:17:07.403Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |  10 | 1:17:06 PM | DELETE_IN_PROGRESS | AWS::IAM::Policy | auth/AmplifySecretFetcherResourceProvider/framework-onEvent/ServiceRole/DefaultPolicy (AmplifySecretFetcherResourceProviderframeworkonEventServiceRoleDefaultPolicy749EBE05)
+2026-01-28T13:17:09.532Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   9 | 1:17:07 PM | DELETE_COMPLETE | AWS::IAM::Policy | auth/AmplifySecretFetcherResourceProvider/framework-onEvent/ServiceRole/DefaultPolicy (AmplifySecretFetcherResourceProviderframeworkonEventServiceRoleDefaultPolicy749EBE05)
+2026-01-28T13:17:09.533Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   9 | 1:17:08 PM | DELETE_IN_PROGRESS | AWS::Lambda::Function | auth/AmplifySecretFetcherResourceProviderLambda (AmplifySecretFetcherResourceProviderLambda27823B35)
+                                 amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   9 | 1:17:08 PM | DELETE_IN_PROGRESS | AWS::IAM::Role | auth/AmplifySecretFetcherResourceProvider/framework-onEvent/ServiceRole (AmplifySecretFetcherResourceProviderframeworkonEventServiceRole0941C6B4)
+2026-01-28T13:17:13.763Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   8 | 1:17:12 PM | DELETE_COMPLETE | AWS::Lambda::Function | auth/AmplifySecretFetcherResourceProviderLambda (AmplifySecretFetcherResourceProviderLambda27823B35)
+2026-01-28T13:17:13.768Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   8 | 1:17:12 PM | DELETE_IN_PROGRESS | AWS::IAM::Policy | auth/AmplifySecretFetcherResourceProviderLambda/ServiceRole/DefaultPolicy (AmplifySecretFetcherResourceProviderLambdaServiceRoleDefaultPolicy080657DD)
+2026-01-28T13:17:15.903Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   7 | 1:17:13 PM | DELETE_COMPLETE | AWS::IAM::Policy | auth/AmplifySecretFetcherResourceProviderLambda/ServiceRole/DefaultPolicy (AmplifySecretFetcherResourceProviderLambdaServiceRoleDefaultPolicy080657DD)
+2026-01-28T13:17:15.903Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   7 | 1:17:14 PM | DELETE_IN_PROGRESS | AWS::IAM::Role | auth/AmplifySecretFetcherResourceProviderLambda/ServiceRole (AmplifySecretFetcherResourceProviderLambdaServiceRole3F02FB0D)
+2026-01-28T13:17:22.364Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   6 | 1:17:22 PM | DELETE_COMPLETE | AWS::Cognito::UserPoolDomain | auth/amplifyAuth/UserPool/UserPoolDomain (amplifyAuthUserPoolUserPoolDomain1F688B5B)
+2026-01-28T13:17:24.505Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   5 | 1:17:22 PM | DELETE_COMPLETE | AWS::IAM::Role | auth/AmplifySecretFetcherResourceProvider/framework-onEvent/ServiceRole (AmplifySecretFetcherResourceProviderframeworkonEventServiceRole0941C6B4)
+2026-01-28T13:17:28.772Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   4 | 1:17:26 PM | DELETE_COMPLETE | AWS::IAM::Role | auth/AmplifySecretFetcherResourceProviderLambda/ServiceRole (AmplifySecretFetcherResourceProviderLambdaServiceRole3F02FB0D)
+2026-01-28T13:17:28.777Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R |   5 | 1:17:26 PM | UPDATE_ROLLBACK_COMPLETE | AWS::CloudFormation::Stack | amplify-dkgndrbx9dc92-master-branch-5e13435485-auth179371D7-1PD638GL7OV6R
+2026-01-28T13:17:32.954Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485 |   4 | 1:17:32 PM | UPDATE_COMPLETE | AWS::CloudFormation::Stack | auth.NestedStack/auth.NestedStackResource (auth179371D7)
+2026-01-28T13:17:32.959Z [INFO]: amplify-dkgndrbx9dc92-master-branch-5e13435485 |   5 | 1:17:32 PM | UPDATE_ROLLBACK_COMPLETE | AWS::CloudFormation::Stack | amplify-dkgndrbx9dc92-master-branch-5e13435485
+2026-01-28T13:17:34.618Z [INFO]: 
+2026-01-28T13:17:34.619Z [WARNING]: ampx pipeline-deploy
+                                    Command to deploy backends in a custom CI/CD pipeline. This command is not inten
+                                    ded to be used locally.
+                                    Options:
+                                    --debug            Print debug logs to the console
+                                    [boolean] [default: false]
+                                    --branch           Name of the git branch being deployed
+                                    [string] [required]
+                                    --app-id           The app id of the target Amplify app[string] [required]
+                                    --outputs-out-dir  A path to directory where amplify_outputs is written. I
+                                    f not provided defaults to current process working dire
+                                    ctory.                                         [string]
+                                    --outputs-version  Version of the configuration. Version 0 represents clas
+                                    sic amplify-cli config file amplify-configuration and 1
+                                    represents newer config file amplify_outputs
+                                    [string] [choices: "0", "1", "1.1", "1.2", "1.3", "1.4"] [default: "1.4"]
+                                    --outputs-format   amplify_outputs file format
+                                    [string] [choices: "mjs", "json", "json-mobile", "ts", "dart"]
+                                    -h, --help             Show help                                     [boolean]
+2026-01-28T13:17:34.619Z [INFO]: [SecretNotSetError] The secret 'GOOGLE_CLIENT_ID' specified in the backend does not exist.
+                                 Resolution: Create secrets using the command npx ampx sandbox secret set. For more information, see https://docs.amplify.aws/gen2/deploy-and-host/sandbox-environments/features/#set-secrets
+2026-01-28T13:17:34.691Z [ERROR]: !!! Build failed
+2026-01-28T13:17:34.691Z [INFO]: Please read more about Amplify Hosting's support for SSR frameworks to find if your build failure is related to an unsupported feature: https://docs.aws.amazon.com/amplify/latest/userguide/amplify-ssr-framework-support.html. You may also find this troubleshooting guide useful: https://docs.aws.amazon.com/amplify/latest/userguide/troubleshooting-ssr-deployment.html
+2026-01-28T13:17:34.691Z [ERROR]: !!! Error: Command failed with exit code 1
+2026-01-28T13:17:34.691Z [INFO]: # Starting environment caching...
+2026-01-28T13:17:34.691Z [INFO]: # Uploading environment cache artifact...
+2026-01-28T13:17:34.780Z [INFO]: # Uploaded environment cache artifact
+2026-01-28T13:17:34.780Z [INFO]: # Environment caching completed
+
