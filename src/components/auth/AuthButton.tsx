@@ -112,20 +112,22 @@ export function AuthButton() {
           ログイン / 登録
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] flex justify-center p-0 overflow-hidden bg-white">
+      <DialogContent className="sm:max-w-[425px] flex justify-center p-0 overflow-hidden bg-background">
         <div className="w-full max-h-[80vh] overflow-y-auto p-6">
           <DialogHeader className="mb-4">
             <DialogTitle className="text-center">ログイン</DialogTitle>
-            <DialogDescription className="text-center">
+            <DialogDescription className="text-center text-muted-foreground">
               アカウントにログインして、お気に入りや積読を同期しましょう。
             </DialogDescription>
           </DialogHeader>
-          <Authenticator 
-             initialState="signIn"
-             components={{
-               Header: () => <div className="p-4 text-center font-bold">Game & Book Calendar</div>
-             }}
-          />
+          <div className="authenticator-wrapper">
+             <Authenticator 
+               initialState="signIn"
+               components={{
+                 Header: () => <div className="p-4 text-center font-bold text-xl mb-2">Game & Book Calendar</div>
+               }}
+             />
+          </div>
         </div>
       </DialogContent>
     </Dialog>
