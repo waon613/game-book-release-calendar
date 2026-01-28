@@ -12,11 +12,16 @@ export async function configureAmplify() {
 
   try {
     // amplify_outputs.json は npx ampx sandbox 実行時に生成される
-    const outputs = await import("../../../amplify_outputs.json");
-    Amplify.configure(outputs.default);
+    // webpackIgnoreを使用してビルド時のモジュール解決をスキップ
+    const outputs = await import(
+      /* webpackIgnore: true */
+      "../../../amplify_outputs.json"
+    );
+    Amplify.configure(outputs.default || outputs);
     isConfigured = true;
-  } catch (error) {
+  } catch {
     console.warn("Amplify outputs not found. Run 'npx ampx sandbox' to generate.");
+    isConfigured = true; // 二重実行防止
   }
 }
 
