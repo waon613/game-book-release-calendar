@@ -52,6 +52,17 @@ const nextConfig: NextConfig = {
   // 圧縮
   compress: true,
 
+  // TypeScriptビルド最適化
+  typescript: {
+    // CIで別途型チェックを実行する場合はtrueに
+    ignoreBuildErrors: false,
+  },
+
+  // ESLintビルド最適化（ビルド時間短縮）
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+
   // ヘッダー設定
   async headers() {
     return [
