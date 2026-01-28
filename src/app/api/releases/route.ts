@@ -84,7 +84,47 @@ export async function GET(request: Request) {
       }
     }
 
-    // ゲームデータ取得（IGDB API）
+    // ゲームデータ取得（楽天ゲームAPI）
+    if (!type || type === "all" || type === "game") {
+      try {
+        const rakutenClient = new RakutenBooksClient(
+          secrets.RAKUTEN_APP_ID,
+          secrets.RAKUTEN_AFFILIATE_ID
+        );
+
+        // Nintendo Switchゲームを取得
+        const switchGames = await rakutenClient.searchGames({ 
+          hardware: "Nintendo Switch",
+          sort: "-releaseDate", 
+          hits: 10 
+        });
+
+        // 楽天ゲームデータをItem形式に変換
+        switchGames.forEach((game, index) => {
+          if (game.salesDate) {
+            items.push({
+              id: `rakuten-game-${index}`,
+              type: "GAME",
+              title: game.title,
+              releaseDate: parseRakutenDate(game.salesDate),
+              coverUrl: game.largeImageUrl || game.mediumImageUrl || "",
+              currentPrice: game.itemPrice,
+              listPrice: game.itemPrice,
+              platform: [game.hardware || "Nintendo Switch"],
+              genre: [],
+              affiliateLinks: {
+                rakuten: game.affiliateUrl || game.itemUrl,
+              },
+            });
+          }
+        });
+      } catch (rakutenGameError) {
+        console.error("Rakuten Game API Error:", rakutenGameError);
+        errors.push(`Rakuten Game: ${rakutenGameError instanceof Error ? rakutenGameError.message : "Unknown error"}`);
+      }
+    }
+
+    // ゲームデータ取得（IGDB API - 補助）
     if (!type || type === "all" || type === "game") {
       try {
         const igdbClient = new IGDBClient(

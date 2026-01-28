@@ -7,7 +7,7 @@
 
 const RAKUTEN_API_BASE = "https://app.rakuten.co.jp/services/api";
 const BOOKS_SEARCH_ENDPOINT = "/BooksBook/Search/20170404";
-const BOOKS_GAME_ENDPOINT = "/BooksGame/Search/20120927";
+const BOOKS_GAME_ENDPOINT = "/BooksGame/Search/20170404";
 // Note: BooksComic/Search doesn't exist, use BooksBook/Search with booksGenreId instead
 
 // 楽天ブックスのジャンルID
@@ -76,6 +76,7 @@ export interface RakutenGameItem {
 export interface RakutenSearchParams {
   keyword?: string;
   booksGenreId?: string;
+  hardware?: string; // ゲーム検索用（例: "Nintendo Switch", "PS5"）
   sort?: "standard" | "sales" | "releaseDate" | "-releaseDate" | "reviewCount" | "reviewAverage";
   page?: number;
   hits?: number; // 1-30
@@ -216,6 +217,7 @@ export class RakutenBooksClient {
       ...(this.affiliateId && { affiliateId: this.affiliateId }),
       ...(params.keyword && { keyword: params.keyword }),
       ...(params.booksGenreId && { booksGenreId: params.booksGenreId }),
+      ...(params.hardware && { hardware: params.hardware }),
       ...(params.sort && { sort: params.sort }),
       ...(params.page && { page: String(params.page) }),
       ...(params.hits && { hits: String(params.hits) }),
