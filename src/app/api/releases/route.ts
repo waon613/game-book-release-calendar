@@ -92,11 +92,22 @@ export async function GET(request: Request) {
           secrets.IGDB_CLIENT_SECRET
         );
 
-        // 今後発売予定のゲームを取得
-        const games = await igdbClient.getUpcomingGames(undefined, 20);
+        // 今後発売予定のゲームと最近リリースされたゲームを取得
+        const [upcomingGames, recentGames] = await Promise.all([
+          igdbClient.getUpcomingGames(undefined, 10),
+          igdbClient.getRecentReleases(undefined, 10),
+        ]);
+
+        // 重複を除去して結合
+        const allGames = [...upcomingGames, ...recentGames];
+        const seenIds = new Set<number>();
 
         // IGDBデータをItem形式に変換
-      games.forEach((game) => {
+      allGames.forEach((game) => {
+        // 重複チェック
+        if (seenIds.has(game.id)) return;
+        seenIds.add(game.id);
+
         if (game.first_release_date) {
           const releaseDate = new Date(game.first_release_date * 1000);
           items.push({
