@@ -58,11 +58,6 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: false,
   },
 
-  // ESLintビルド最適化（ビルド時間短縮）
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-
   // ヘッダー設定
   async headers() {
     return [
