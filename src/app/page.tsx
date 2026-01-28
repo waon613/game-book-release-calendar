@@ -52,109 +52,134 @@ interface ItemDetailModalProps {
 function ItemDetailModal({ item, onClose }: ItemDetailModalProps) {
   if (!item) return null;
 
+  const isGame = item.type === "GAME";
+  const primaryColor = isGame ? "var(--game-primary)" : "var(--book-primary)";
+
   return (
     <div
-      className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50"
+      className="fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-200"
       onClick={onClose}
     >
-      <Card
-        className="w-full max-w-lg max-h-[90vh] overflow-auto"
+      <div
+        className="w-full max-w-2xl bg-card rounded-2xl shadow-2xl border overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
-        <CardHeader>
-          <div className="flex items-center gap-2 mb-2">
-            <span
-              className={`text-xs px-2 py-0.5 rounded ${
-                item.type === "GAME"
-                  ? "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200"
-                  : "bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200"
-              }`}
-            >
-              {item.type === "GAME" ? "ゲーム" : "書籍"}
-            </span>
-            {item.releaseDate && (
-              <span className="text-sm text-muted-foreground">
-                {formatDateJST(item.releaseDate)} ({getDayOfWeekJP(item.releaseDate)})
-              </span>
-            )}
-          </div>
-          <CardTitle>{item.title}</CardTitle>
-          {item.genre && item.genre.length > 0 && (
-            <CardDescription>{item.genre.join(" / ")}</CardDescription>
-          )}
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {/* 詳細情報 */}
-          <div className="grid grid-cols-2 gap-4 text-sm">
-            {item.criticScore && (
-              <div>
-                <span className="text-muted-foreground">評価スコア</span>
-                <div className="font-bold text-lg">{item.criticScore}点</div>
+        {/* ヘッダー画像エリア */}
+        <div className="relative h-48 bg-muted flex-shrink-0">
+          {item.coverUrl ? (
+            <>
+              <div 
+                className="absolute inset-0 bg-cover bg-center blur-xl opacity-50"
+                style={{ backgroundImage: `url(${item.coverUrl})` }}
+              />
+              <div className="absolute inset-0 bg-black/20" />
+              <div className="absolute top-6 left-6 bottom-[-2rem] w-32 shadow-xl rounded-lg overflow-hidden border-2 border-background z-10 hidden md:block">
+                 <img src={item.coverUrl} alt={item.title} className="w-full h-full object-cover" />
               </div>
-            )}
-            {item.estimatedClearTime && (
-              <div>
-                <span className="text-muted-foreground">クリア時間</span>
-                <div className="font-bold text-lg">
-                  約{Math.round(item.estimatedClearTime / 60)}時間
-                </div>
+              <div className="absolute inset-0 flex items-center justify-center md:hidden">
+                 <img src={item.coverUrl} alt={item.title} className="h-40 w-auto object-contain shadow-lg rounded" />
               </div>
-            )}
-            {item.currentPrice && (
-              <div>
-                <span className="text-muted-foreground">価格</span>
-                <div className="font-bold text-lg text-green-600">
-                  {formatPriceJPY(item.currentPrice)}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* プラットフォーム */}
-          {item.platform && item.platform.length > 0 && (
-            <div>
-              <span className="text-sm text-muted-foreground">対応機種</span>
-              <div className="flex gap-2 flex-wrap mt-1">
-                {item.platform.map((p) => (
-                  <span
-                    key={p}
-                    className="text-xs bg-muted px-2 py-1 rounded"
-                  >
-                    {p}
-                  </span>
-                ))}
-              </div>
+            </>
+          ) : (
+            <div className={`w-full h-full flex items-center justify-center text-4xl ${isGame ? "bg-blue-900/20" : "bg-orange-900/20"}`}>
+               {isGame ? "🎮" : "📚"}
             </div>
           )}
-
-          {/* アフィリエイトボタン */}
-          <div className="flex gap-3 pt-4">
-            {item.affiliateLinks?.amazon_jp && (
-              <AmazonButton url={item.affiliateLinks.amazon_jp} className="flex-1" />
-            )}
-            {item.affiliateLinks?.rakuten && (
-              <RakutenButton url={item.affiliateLinks.rakuten} className="flex-1" />
-            )}
-          </div>
-
-          {/* お気に入り＆リマインダーボタン */}
-          <div className="flex gap-2 pt-2">
-            <FavoriteButton itemId={item.id} itemTitle={item.title} className="flex-1" />
-            {item.releaseDate && (
-              <ReminderButton 
-                itemId={item.id} 
-                itemTitle={item.title} 
-                releaseDate={item.releaseDate} 
-                className="flex-1" 
-              />
-            )}
-          </div>
-
-          <Button variant="outline" className="w-full" onClick={onClose}>
-            閉じる
+          
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="absolute top-2 right-2 rounded-full bg-background/50 hover:bg-background text-foreground backdrop-blur-sm"
+            onClick={onClose}
+          >
+            ✕
           </Button>
-        </CardContent>
-      </Card>
+        </div>
+
+        {/* コンテンツエリア */}
+        <div className="p-6 md:pl-44 pt-4 md:pt-4 flex flex-col overflow-y-auto no-scrollbar">
+           {/* メタ情報バッジ */}
+           <div className="flex flex-wrap items-center gap-2 mb-2">
+             <span
+                className="px-2.5 py-0.5 text-[10px] font-bold text-white rounded-full uppercase tracking-wider"
+                style={{ backgroundColor: primaryColor }}
+             >
+               {isGame ? "GAME" : "BOOK"}
+             </span>
+             {item.releaseDate && (
+               <span className="text-xs font-medium px-2 py-0.5 bg-muted rounded text-muted-foreground flex items-center gap-1">
+                 📅 {formatDateJST(item.releaseDate)} ({getDayOfWeekJP(item.releaseDate)})
+               </span>
+             )}
+             {item.genre && item.genre.map(g => (
+                <span key={g} className="text-xs text-muted-foreground border px-2 py-0.5 rounded-full">{g}</span>
+             ))}
+           </div>
+
+           <h2 className="text-2xl font-bold leading-tight mb-4">{item.title}</h2> 
+
+           <div className="grid grid-cols-2 gap-4 mb-6">
+              {item.currentPrice && (
+                 <div className="bg-muted/30 p-3 rounded-xl border border-border/50">
+                    <div className="text-xs text-muted-foreground mb-1">参考価格</div>
+                    <div className="text-xl font-bold font-mono text-primary">{formatPriceJPY(item.currentPrice)}</div>
+                 </div>
+              )}
+              
+              {(item.criticScore || item.estimatedClearTime) && (
+                 <div className="bg-muted/30 p-3 rounded-xl border border-border/50">
+                    <div className="text-xs text-muted-foreground mb-1">{isGame ? "クリア時間 / 評価" : "評価"}</div>
+                    <div className="flex items-center gap-3 font-medium">
+                       {item.estimatedClearTime && (
+                         <span className="flex items-center gap-1" title="推定クリア時間">⏱️ {Math.round(item.estimatedClearTime / 60)}h</span>
+                       )}
+                       {item.criticScore && (
+                         <span className="flex items-center gap-1" title="メタスコア">⭐ {item.criticScore}</span>
+                       )}
+                    </div>
+                 </div>
+              )}
+           </div>
+           
+           <div className="mb-6 p-4 bg-muted/20 rounded-xl text-sm leading-relaxed text-muted-foreground">
+             {/* ダミー説明文（APIから説明文が来るようになったらここに入れる） */}
+             <p>{item.type === "GAME" ? "このゲームの詳細情報はまだありません。" : "この書籍の詳細情報はまだありますん。"}</p>
+           </div>
+
+           {item.platform && item.platform.length > 0 && (
+              <div className="mb-6">
+                <div className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2">Platform</div>
+                <div className="flex flex-wrap gap-2">
+                  {item.platform.map(p => (
+                    <span key={p} className="px-3 py-1 bg-background border shadow-sm rounded-lg text-sm font-medium">{p}</span>
+                  ))}
+                </div>
+              </div>
+           )}
+           
+           <div className="mt-auto space-y-3 pt-4 border-t border-border/50">
+              <div className="grid grid-cols-2 gap-3">
+                {item.affiliateLinks?.amazon_jp && (
+                  <AmazonButton url={item.affiliateLinks.amazon_jp} className="w-full" />
+                )}
+                {item.affiliateLinks?.rakuten && (
+                  <RakutenButton url={item.affiliateLinks.rakuten} className="w-full" />
+                )}
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                 <FavoriteButton itemId={item.id} itemTitle={item.title} itemType={item.type} className="w-full justify-center" showLabel />
+                 {item.releaseDate && (
+                    <ReminderButton 
+                       itemId={item.id} 
+                       itemTitle={item.title} 
+                       releaseDate={item.releaseDate} 
+                       className="w-full justify-center" 
+                    />
+                 )}
+              </div>
+           </div>
+        </div>
+      </div>
     </div>
   );
 }
