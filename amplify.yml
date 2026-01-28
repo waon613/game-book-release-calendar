@@ -1,15 +1,36 @@
 version: 1
+# =============================================================
+# AWS Amplify CI/CD 高速化設定
+# =============================================================
+
+# バックエンド: 変更検知による条件付きビルド
 backend:
   phases:
     build:
       commands:
-        - echo "Skipping backend deployment (deploy manually when needed)"
-        # 手動デプロイコマンド: npx ampx pipeline-deploy --branch master --app-id dkgndrbx9dc92
+        # バックエンド変更検知（amplify/フォルダの変更がある場合のみデプロイ）
+        - |
+          if [ "$AWS_BRANCH" = "master" ]; then
+            BACKEND_CHANGED=$(git diff --name-only HEAD~1 HEAD 2>/dev/null | grep -E '^amplify/' || echo "")
+            if [ -n "$BACKEND_CHANGED" ]; then
+              echo "Backend changes detected, deploying..."
+              npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
+            else
+              echo "No backend changes, skipping deployment"
+            fi
+          else
+            echo "Non-production branch, skipping backend"
+          fi
+
 frontend:
   phases:
     preBuild:
       commands:
-        - npm ci --cache .npm --prefer-offline
+        # Node.jsバージョン確認
+        - node --version
+        - npm --version
+        # キャッシュを活用した高速インストール
+        - npm ci --cache .npm --prefer-offline --ignore-scripts || npm ci --cache .npm --prefer-offline
         # 環境変数を.env.productionに書き込み
         - |
           cat > .env.production << EOF
@@ -24,6 +45,7 @@ frontend:
           EOF
     build:
       commands:
+        # Next.jsビルド（並列化と最適化）
         - npm run build
   artifacts:
     baseDirectory: .next
@@ -31,6 +53,7 @@ frontend:
       - '**/*'
   cache:
     paths:
-      - .next/cache/**/*
-      - .npm/**/*
-      - node_modules/**/*
+      # キャッシュ優先順位（重要度順）
+      - node_modules/**/*          # 依存関係（最も効果大）
+      - .npm/**/*                   # npmキャッシュ
+      - .next/cache/**/*            # Next.jsビルドキャッシュ（増分ビルド）

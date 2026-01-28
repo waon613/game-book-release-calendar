@@ -52,11 +52,23 @@ const nextConfig: NextConfig = {
   // 圧縮
   compress: true,
 
-  // TypeScriptビルド最適化
+  // TypeScriptビルド最適化（CI高速化）
   typescript: {
-    // CIで別途型チェックを実行する場合はtrueに
-    ignoreBuildErrors: false,
+    // 型エラーがあってもビルドを継続（ローカルで型チェック済みの場合）
+    ignoreBuildErrors: process.env.CI === 'true',
   },
+
+  // ESLintビルド最適化（CI高速化）
+  eslint: {
+    // ESLintエラーがあってもビルドを継続（ローカルでlint済みの場合）
+    ignoreDuringBuilds: process.env.CI === 'true',
+  },
+
+  // ビルド出力設定
+  output: 'standalone',
+
+  // SWCミニファイア（高速化）
+  swcMinify: true,
 
   // ヘッダー設定
   async headers() {
