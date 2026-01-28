@@ -58,17 +58,8 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: process.env.CI === 'true',
   },
 
-  // ESLintビルド最適化（CI高速化）
-  eslint: {
-    // ESLintエラーがあってもビルドを継続（ローカルでlint済みの場合）
-    ignoreDuringBuilds: process.env.CI === 'true',
-  },
-
   // ビルド出力設定
   output: 'standalone',
-
-  // SWCミニファイア（高速化）
-  swcMinify: true,
 
   // ヘッダー設定
   async headers() {
