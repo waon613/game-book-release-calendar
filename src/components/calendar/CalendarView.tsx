@@ -236,14 +236,14 @@ export function CalendarView({ items, onItemClick }: CalendarViewProps) {
 
       {/* カレンダー表示 */}
       {viewMode === "calendar" && (
-        <div className="bg-card rounded-lg border shadow-sm overflow-hidden">
+        <div className="bg-card rounded-xl border border-border/50 shadow-sm overflow-hidden bg-white/50 dark:bg-zinc-900/50 backdrop-blur-sm">
           {/* 曜日ヘッダー */}
-          <div className="grid grid-cols-7 border-b">
+          <div className="grid grid-cols-7 border-b border-border/50 bg-muted/30">
             {weekDayLabels.map((day, i) => (
               <div
                 key={day}
-                className={`p-2 text-center text-sm font-medium ${
-                  i === 0 ? "text-red-500" : i === 6 ? "text-blue-500" : ""
+                className={`py-3 text-center text-xs font-bold ${
+                  i === 0 ? "text-rose-500" : i === 6 ? "text-blue-500" : "text-muted-foreground"
                 }`}
               >
                 {day}
@@ -252,7 +252,7 @@ export function CalendarView({ items, onItemClick }: CalendarViewProps) {
           </div>
 
           {/* 日付グリッド */}
-          <div className="grid grid-cols-7">
+          <div className="grid grid-cols-7 divide-x divide-y divide-border/50">
             {monthDays.map((date, i) => {
               const dateKey = date.toISOString().split("T")[0];
               const dayItems = itemsByDate.get(dateKey) || [];
@@ -263,44 +263,43 @@ export function CalendarView({ items, onItemClick }: CalendarViewProps) {
               return (
                 <div
                   key={i}
-                  className={`min-h-[80px] md:min-h-[100px] p-1 border-b border-r ${
-                    !isCurrentMonth ? "bg-muted/50" : ""
+                  className={`min-h-[100px] md:min-h-[120px] p-2 transition-colors hover:bg-muted/30 ${
+                    !isCurrentMonth ? "bg-muted/20" : ""
                   }`}
                 >
-                  <div
-                    className={`text-xs md:text-sm mb-1 ${
-                      !isCurrentMonth
-                        ? "text-muted-foreground"
-                        : dayOfWeek === 0
-                        ? "text-red-500"
-                        : dayOfWeek === 6
-                        ? "text-blue-500"
-                        : ""
-                    } ${
-                      isToday
-                        ? "bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center"
-                        : ""
-                    }`}
-                  >
-                    {date.getDate()}
+                  <div className="flex justify-between items-start mb-1">
+                    <span
+                      className={`text-sm font-medium w-7 h-7 flex items-center justify-center rounded-full ${
+                        isToday
+                          ? "bg-primary text-primary-foreground shadow-md"
+                          : dayOfWeek === 0
+                          ? "text-rose-500"
+                          : dayOfWeek === 6
+                          ? "text-blue-500"
+                          : "text-foreground/80"
+                      } ${!isCurrentMonth ? "opacity-30" : ""}`}
+                    >
+                      {date.getDate()}
+                    </span>
                   </div>
-                  <div className="space-y-1">
+                  
+                  <div className="space-y-1.5 mt-1">
                     {dayItems.slice(0, 3).map((item) => (
                       <div
                         key={item.id}
-                        onClick={() => onItemClick?.(item)}
-                        className={`text-xs p-1 rounded truncate cursor-pointer hover:opacity-80 ${
+                        onClick={(e) => { e.stopPropagation(); onItemClick?.(item); }}
+                        className={`text-[10px] px-2 py-1 rounded-md truncate cursor-pointer transition-all hover:scale-[1.02] shadow-sm font-medium border ${
                           item.type === "GAME"
-                            ? "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200"
-                            : "bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200"
+                            ? "bg-[var(--game-background)] text-[var(--game-primary)] border-[var(--game-primary)]/20"
+                            : "bg-[var(--book-background)] text-[var(--book-primary)] border-[var(--book-primary)]/20"
                         }`}
                       >
                         {item.title}
                       </div>
                     ))}
                     {dayItems.length > 3 && (
-                      <div className="text-xs text-muted-foreground pl-1">
-                        +{dayItems.length - 3}件
+                      <div className="text-[10px] text-muted-foreground pl-1 font-medium">
+                        +{dayItems.length - 3} more
                       </div>
                     )}
                   </div>
@@ -313,23 +312,23 @@ export function CalendarView({ items, onItemClick }: CalendarViewProps) {
 
       {/* 週表示 */}
       {viewMode === "week" && (
-        <div className="bg-card rounded-lg border shadow-sm overflow-hidden">
+        <div className="bg-card rounded-xl border border-border/50 shadow-sm overflow-hidden bg-white/50 dark:bg-zinc-900/50 backdrop-blur-sm">
           {/* 曜日＋日付ヘッダー */}
-          <div className="grid grid-cols-7 border-b">
+          <div className="grid grid-cols-7 border-b border-border/50 bg-muted/30">
             {weekDays.map((date, i) => {
               const isToday = date.toDateString() === today.toDateString();
               return (
                 <div
                   key={i}
-                  className={`p-2 text-center ${
-                    i === 0 ? "text-red-500" : i === 6 ? "text-blue-500" : ""
+                  className={`py-3 px-2 text-center border-r border-border/50 last:border-r-0 ${
+                    i === 0 ? "text-rose-500" : i === 6 ? "text-blue-500" : "text-foreground"
                   }`}
                 >
-                  <div className="text-xs font-medium">{weekDayLabels[i]}</div>
+                  <div className="text-xs font-medium text-muted-foreground mb-1">{weekDayLabels[i]}</div>
                   <div
-                    className={`text-lg font-bold ${
+                    className={`text-xl font-bold w-10 h-10 mx-auto flex items-center justify-center rounded-full ${
                       isToday
-                        ? "bg-primary text-primary-foreground rounded-full w-8 h-8 mx-auto flex items-center justify-center"
+                        ? "bg-primary text-primary-foreground shadow-lg scale-110"
                         : ""
                     }`}
                   >
@@ -341,40 +340,50 @@ export function CalendarView({ items, onItemClick }: CalendarViewProps) {
           </div>
 
           {/* 日ごとのアイテム */}
-          <div className="grid grid-cols-7 min-h-[300px]">
+          <div className="grid grid-cols-7 min-h-[400px] divide-x divide-border/50">
             {weekDays.map((date, i) => {
               const dateKey = date.toISOString().split("T")[0];
               const dayItems = itemsByDate.get(dateKey) || [];
               return (
                 <div
                   key={i}
-                  className={`p-2 border-r min-h-[200px] ${
-                    i === 0 ? "bg-red-50/30 dark:bg-red-900/10" : 
+                  className={`p-2 transition-colors hover:bg-muted/20 ${
+                    i === 0 ? "bg-rose-50/30 dark:bg-rose-900/10" : 
                     i === 6 ? "bg-blue-50/30 dark:bg-blue-900/10" : ""
                   }`}
                 >
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     {dayItems.map((item) => (
                       <div
                         key={item.id}
-                        onClick={() => onItemClick?.(item)}
-                        className={`text-xs p-2 rounded cursor-pointer hover:opacity-80 ${
+                        onClick={(e) => { e.stopPropagation(); onItemClick?.(item); }}
+                        className={`group relative p-3 rounded-lg cursor-pointer transition-all hover:shadow-md border ${
                           item.type === "GAME"
-                            ? "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200"
-                            : "bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200"
+                            ? "bg-[var(--game-background)] border-[var(--game-primary)]/20 hover:border-[var(--game-primary)]/50"
+                            : "bg-[var(--book-background)] border-[var(--book-primary)]/20 hover:border-[var(--book-primary)]/50"
                         }`}
                       >
-                        <div className="font-medium truncate">{item.title}</div>
+                        <div className={`text-[10px] font-bold mb-1 uppercase tracking-wider ${
+                           item.type === "GAME" ? "text-[var(--game-primary)]" : "text-[var(--book-primary)]"
+                        }`}>
+                          {item.type === "GAME" ? "GAME" : "BOOK"}
+                        </div>
+                        <div className="text-xs font-bold leading-snug line-clamp-3 mb-2">{item.title}</div>
                         {item.currentPrice && (
-                          <div className="text-xs mt-1 opacity-75">
+                          <div className="text-xs font-medium opacity-75">
                             {formatPriceJPY(item.currentPrice)}
+                          </div>
+                        )}
+                        {item.coverUrl && (
+                          <div className="mt-2 text-xs text-center opacity-0 group-hover:opacity-100 transition-opacity absolute inset-0 bg-black/60 flex items-center justify-center text-white rounded-lg font-bold backdrop-blur-sm">
+                            詳細を見る
                           </div>
                         )}
                       </div>
                     ))}
                     {dayItems.length === 0 && (
-                      <div className="text-xs text-muted-foreground text-center py-4">
-                        -
+                      <div className="h-full flex items-center justify-center">
+                        <div className="text-xs text-muted-foreground/50 font-medium">No schedule</div>
                       </div>
                     )}
                   </div>
@@ -386,97 +395,103 @@ export function CalendarView({ items, onItemClick }: CalendarViewProps) {
       )}
 
       {/* リスト表示 */}
+      {/* リスト表示（リッチカードデザイン） */}
       {viewMode === "list" && (
-        <div className="bg-card rounded-lg border shadow-sm overflow-hidden">
+        <div className="pb-8">
           {monthItems.length === 0 ? (
-            <div className="p-8 text-center text-muted-foreground">
-              この月のリリース予定はありません
+            <div className="p-16 text-center bg-card rounded-2xl border border-dashed flex flex-col items-center justify-center">
+              <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center text-3xl mb-4">📅</div>
+              <h3 className="text-xl font-semibold mb-1">リリース予定がありません</h3>
+              <p className="text-muted-foreground">今のところ、この月に発売されるゲームや書籍の予定はないようです。</p>
             </div>
           ) : (
-            <div className="divide-y">
+            <div className="space-y-4">
               {monthItems.map((item) => (
                 <div
                   key={item.id}
-                  className="p-4 hover:bg-muted/50 flex gap-4"
+                  onClick={() => onItemClick?.(item)}
+                  className="group bg-card hover:bg-muted/30 rounded-2xl border shadow-sm hover:shadow-lg transition-all cursor-pointer overflow-hidden flex flex-col md:flex-row h-full md:h-48"
                 >
-                  {/* カバー画像 */}
-                  <div 
-                    onClick={() => onItemClick?.(item)}
-                    className="w-16 h-20 bg-muted rounded overflow-hidden flex-shrink-0 cursor-pointer"
-                  >
+                  {/* カバー画像セクション */}
+                  <div className="w-full md:w-48 h-48 md:h-full bg-muted flex-shrink-0 relative overflow-hidden">
                     {item.coverUrl ? (
                       <img
                         src={item.coverUrl}
                         alt={item.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                        {item.type === "GAME" ? "🎮" : "📚"}
+                      <div className="w-full h-full flex flex-col items-center justify-center text-muted-foreground">
+                        <span className="text-4xl mb-2">{item.type === "GAME" ? "🎮" : "📚"}</span>
                       </div>
                     )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:bg-gradient-to-r md:from-transparent md:to-black/10 opacity-60"></div>
+                    
+                    {/* タイプバッジ（画像上） */}
+                    <div className={`absolute top-3 left-3 px-2.5 py-1 text-[10px] uppercase font-bold text-white shadow-lg rounded-full backdrop-blur-md ${
+                       item.type === "GAME" ? "bg-[var(--game-primary)]" : "bg-[var(--book-primary)]"
+                    } ring-1 ring-white/20`}>
+                      {item.type === "GAME" ? "Game" : "Book"}
+                    </div>
                   </div>
 
-                  {/* 情報 */}
-                  <div 
-                    className="flex-1 min-w-0 cursor-pointer"
-                    onClick={() => onItemClick?.(item)}
-                  >
-                    <div className="flex items-center gap-2 mb-1">
-                      <span
-                        className={`text-xs px-2 py-0.5 rounded ${
-                          item.type === "GAME"
-                            ? "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200"
-                            : "bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200"
-                        }`}
-                      >
-                        {item.type === "GAME" ? "ゲーム" : "書籍"}
-                      </span>
-                      {item.releaseDate && (
-                        <span className="text-xs text-muted-foreground">
-                          {formatDateJST(item.releaseDate)} (
-                          {getDayOfWeekJP(item.releaseDate)})
-                        </span>
-                      )}
-                    </div>
-                    <h3 className="font-medium truncate">{item.title}</h3>
-                    <div className="flex items-center gap-4 mt-1 text-sm text-muted-foreground">
-                      {item.criticScore && (
-                        <span>評価: {item.criticScore}点</span>
-                      )}
-                      {item.estimatedClearTime && (
-                        <span>
-                          クリア時間: 約{Math.round(item.estimatedClearTime / 60)}
-                          時間
-                        </span>
-                      )}
-                      {item.currentPrice && (
-                        <span className="font-medium text-foreground">
-                          {formatPriceJPY(item.currentPrice)}
-                        </span>
-                      )}
-                    </div>
-                    {item.platform && item.platform.length > 0 && (
-                      <div className="flex gap-1 mt-2 flex-wrap">
-                        {item.platform.map((p) => (
-                          <span
-                            key={p}
-                            className="text-xs bg-muted px-2 py-0.5 rounded"
-                          >
-                            {p}
+                  {/* 情報セクション */}
+                  <div className="flex-1 p-5 flex flex-col min-w-0 relative">
+                    <div className="flex items-start justify-between gap-4 mb-2">
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
+                          <span className="flex items-center gap-1">
+                             📅 {item.releaseDate ? `${formatDateJST(item.releaseDate)} (${getDayOfWeekJP(item.releaseDate)})` : "発売日未定"}
                           </span>
-                        ))}
+                          <span>•</span>
+                          <span className={`${item.type === "GAME" ? "text-[var(--game-primary)]" : "text-[var(--book-primary)]"}`}>
+                            {item.publisher || "Publisher"}
+                          </span>
+                        </div>
+                        <h3 className="font-bold text-lg md:text-xl leading-snug line-clamp-2 md:line-clamp-1 group-hover:text-primary transition-colors">
+                          {item.title}
+                        </h3>
                       </div>
-                    )}
-                  </div>
+                      <div onClick={(e) => e.stopPropagation()}>
+                        <FavoriteButton 
+                          itemId={item.id} 
+                          itemTitle={item.title} 
+                          itemType={item.type}
+                          variant="icon" 
+                          className="hover:bg-muted rounded-full w-10 h-10"
+                        />
+                      </div>
+                    </div>
 
-                  {/* お気に入りボタン */}
-                  <div className="flex-shrink-0 self-center">
-                    <FavoriteButton 
-                      itemId={item.id} 
-                      itemTitle={item.title} 
-                      variant="icon"
-                    />
+                    <div className="flex-1">
+                       <div className="flex flex-wrap gap-2 text-xs mb-3">
+                          {item.platform && item.platform.length > 0 && item.platform.map((p) => (
+                             <span key={p} className="px-2 py-1 bg-muted/50 border rounded-md font-medium text-muted-foreground">{p}</span>
+                          ))}
+                          {item.estimatedClearTime && (
+                            <span className="px-2 py-1 bg-muted/50 border rounded-md text-muted-foreground flex items-center gap-1">
+                              ⏱️ 約{Math.round(item.estimatedClearTime / 60)}時間
+                            </span>
+                          )}
+                       </div>
+                       
+                       <div className="text-sm text-muted-foreground line-clamp-2">
+                         {item.description || "No description available."}
+                       </div>
+                    </div>
+
+                    <div className="mt-4 pt-4 border-t border-border/50 flex items-center justify-between">
+                       <div className="flex items-baseline gap-1">
+                         <span className="text-xs text-muted-foreground">参考価格</span>
+                         <span className="text-xl font-bold font-mono tracking-tight">
+                           {item.currentPrice ? formatPriceJPY(item.currentPrice) : "--"}
+                         </span>
+                       </div>
+                       <button className="text-sm font-medium text-primary hover:underline underline-offset-4 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                         詳細を見る
+                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                       </button>
+                    </div>
                   </div>
                 </div>
               ))}
