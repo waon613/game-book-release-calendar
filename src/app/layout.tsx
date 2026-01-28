@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import "@aws-amplify/ui-react/styles.css";
 import "./globals.css";
 import { AmplifyProvider } from "@/components/providers/AmplifyProvider";
 import { GoogleAnalytics } from "@/components/analytics";
