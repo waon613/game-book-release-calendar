@@ -1,6 +1,10 @@
 version: 1
-# バックエンドは必要時のみ手動でデプロイ
-# npx ampx pipeline-deploy --branch master --app-id dkgndrbx9dc92
+backend:
+  phases:
+    build:
+      commands:
+        - echo "Skipping backend deployment (deploy manually when needed)"
+        # 手動デプロイコマンド: npx ampx pipeline-deploy --branch master --app-id dkgndrbx9dc92
 frontend:
   phases:
     preBuild:
