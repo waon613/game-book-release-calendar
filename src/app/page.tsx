@@ -165,10 +165,10 @@ function ItemDetailModal({ item, onClose }: ItemDetailModalProps) {
 
              <div className="flex flex-col gap-3">
                {item.affiliateLinks?.amazon_jp && (
-                  <AmazonButton url={item.affiliateLinks.amazon_jp} price={item.currentPrice} className="w-full h-12 text-base font-bold shadow-xl shadow-orange-900/10" />
+                  <AmazonButton url={item.affiliateLinks.amazon_jp} className="w-full h-12 text-base font-bold shadow-xl shadow-orange-900/10" />
                )}
                {item.affiliateLinks?.rakuten && (
-                  <RakutenButton url={item.affiliateLinks.rakuten} price={item.currentPrice} className="w-full h-12 text-base font-bold shadow-xl shadow-red-900/10" />
+                  <RakutenButton url={item.affiliateLinks.rakuten} className="w-full h-12 text-base font-bold shadow-xl shadow-red-900/10" />
                )}
              </div>
            </div>
@@ -232,9 +232,16 @@ export default function Home() {
                     <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-widest">Filters</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-6">
-                    <GenreSelector selectedGenres={[]} onChange={() => {}} />
-                    <ScoreFilter minScore={0} onChange={() => {}} />
-                    <ClearTimeSlider maxTime={100} onChange={() => {}} />
+                    <GenreSelector 
+                      selectedGenres={[]} 
+                      selectedPlatforms={[]}
+                      itemType="ALL"
+                      onGenreChange={() => {}} 
+                      onPlatformChange={() => {}}
+                      onTypeChange={() => {}}
+                    />
+                    <ScoreFilter selectedScores={[0]} onChange={() => {}} />
+                    <ClearTimeSlider value={[0, 6000]} onChange={() => {}} />
                   </CardContent>
                 </Card>
 
@@ -242,7 +249,7 @@ export default function Home() {
                    <Card className="bg-gradient-to-br from-purple-900/20 to-transparent border-purple-500/20 hover:border-purple-500/30 transition-colors cursor-pointer group">
                       <CardContent className="p-4 flex flex-col items-center justify-center text-center gap-2">
                          <div className="p-2 bg-purple-500/10 rounded-full group-hover:scale-110 transition-transform">
-                           <FavoriteBadge count={3} />
+                           <FavoriteBadge />
                          </div>
                          <span className="text-xs font-bold text-purple-200">Favorites</span>
                       </CardContent>
@@ -251,7 +258,7 @@ export default function Home() {
                    <Card className="bg-gradient-to-br from-blue-900/20 to-transparent border-blue-500/20 hover:border-blue-500/30 transition-colors cursor-pointer group">
                       <CardContent className="p-4 flex flex-col items-center justify-center text-center gap-2">
                          <div className="p-2 bg-blue-500/10 rounded-full group-hover:scale-110 transition-transform">
-                           <NotificationBadge count={1} />
+                           <NotificationBadge />
                          </div>
                          <span className="text-xs font-bold text-blue-200">Reminders</span>
                       </CardContent>
