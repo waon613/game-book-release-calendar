@@ -25,17 +25,6 @@ const config: Config = {
         primary: {
           DEFAULT: "var(--primary)",
           foreground: "var(--primary-foreground)",
-          50: "#eff6ff",
-          100: "#dbeafe",
-          200: "#bfdbfe",
-          300: "#93c5fd",
-          400: "#60a5fa",
-          500: "#3b82f6",
-          600: "#2563eb",
-          700: "#1d4ed8",
-          800: "#1e40af",
-          900: "#1e3a8a",
-          950: "#172554",
         },
         secondary: {
           DEFAULT: "var(--secondary)",
@@ -52,6 +41,7 @@ const config: Config = {
         accent: {
           DEFAULT: "var(--accent)",
           foreground: "var(--accent-foreground)",
+          hover: "var(--accent-hover)",
         },
         popover: {
           DEFAULT: "var(--popover)",
@@ -60,18 +50,6 @@ const config: Config = {
         card: {
           DEFAULT: "var(--card)",
           foreground: "var(--card-foreground)",
-        },
-        sidebar: {
-          DEFAULT: "var(--sidebar)",
-          foreground: "var(--sidebar-foreground)",
-        },
-        amazon: {
-          DEFAULT: "#FF9900",
-          hover: "#FFB340",
-        },
-        rakuten: {
-          DEFAULT: "#BF0000",
-          hover: "#D93030",
         },
       },
       borderRadius: {

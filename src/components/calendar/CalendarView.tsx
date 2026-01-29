@@ -131,75 +131,65 @@ export function CalendarView({ items, onItemClick }: CalendarViewProps) {
 
   return (
     <div className="w-full">
-      <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4 pl-1">
-        <div className="flex items-center gap-1">
-           <div className="flex items-center rounded-md border border-border/50 bg-background/50 p-0.5">
-             <Button variant="ghost" size="icon" onClick={goToPrevMonth} className="h-8 w-8 hover:bg-muted text-muted-foreground">
-               <ChevronLeft className="w-4 h-4" />
-             </Button>
-             <span className="text-sm font-mono font-medium min-w-[120px] text-center px-2 py-1">
-               {currentYear} / {currentMonth.toString().padStart(2, "0")}
-             </span>
-             <Button variant="ghost" size="icon" onClick={goToNextMonth} className="h-8 w-8 hover:bg-muted text-muted-foreground">
-               <ChevronRight className="w-4 h-4" />
-             </Button>
-           </div>
-           
-           <Button variant="outline" size="sm" onClick={goToToday} className="h-9 px-3 text-xs font-medium bg-transparent border-border/50 text-muted-foreground hover:text-foreground">
-             Today
-           </Button>
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="icon" onClick={goToPrevMonth}>
+            <ChevronLeft className="w-4 h-4" />
+          </Button>
+          <span className="text-sm font-medium min-w-[120px] text-center">
+            {currentYear} / {currentMonth.toString().padStart(2, "0")}
+          </span>
+          <Button variant="outline" size="icon" onClick={goToNextMonth}>
+            <ChevronRight className="w-4 h-4" />
+          </Button>
+          <Button variant="outline" size="sm" onClick={goToToday}>
+            Today
+          </Button>
         </div>
 
-        <div className="flex gap-1 p-1 bg-muted/20 border border-white/5 rounded-lg backdrop-blur-sm">
+        <div className="flex gap-1">
           <Button
-            variant={viewMode === "calendar" ? "secondary" : "ghost"}
+            variant={viewMode === "calendar" ? "default" : "ghost"}
             size="sm"
             onClick={() => setViewMode("calendar")}
-            className={`h-7 px-3 text-xs gap-1.5 transition-all ${viewMode === "calendar" ? "bg-muted text-foreground ring-1 ring-white/10" : "text-muted-foreground hover:text-foreground hover:bg-transparent"}`}
           >
-            <Calendar className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Month</span>
+            <Calendar className="w-4 h-4" />
+            <span className="ml-2">Month</span>
           </Button>
           <Button
-            variant={viewMode === "week" ? "secondary" : "ghost"}
+            variant={viewMode === "week" ? "default" : "ghost"}
             size="sm"
             onClick={() => setViewMode("week")}
-            className={`h-7 px-3 text-xs gap-1.5 transition-all ${viewMode === "week" ? "bg-muted text-foreground ring-1 ring-white/10" : "text-muted-foreground hover:text-foreground hover:bg-transparent"}`}
           >
-            <CalendarDays className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Week</span>
+            <CalendarDays className="w-4 h-4" />
+            <span className="ml-2">Week</span>
           </Button>
           <Button
-            variant={viewMode === "list" ? "secondary" : "ghost"}
+            variant={viewMode === "list" ? "default" : "ghost"}
             size="sm"
             onClick={() => setViewMode("list")}
-            className={`h-7 px-3 text-xs gap-1.5 transition-all ${viewMode === "list" ? "bg-muted text-foreground ring-1 ring-white/10" : "text-muted-foreground hover:text-foreground hover:bg-transparent"}`}
           >
-            <List className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">List</span>
+            <List className="w-4 h-4" />
+            <span className="ml-2">List</span>
           </Button>
         </div>
       </div>
 
-      <div className="relative min-h-[600px] w-full bg-[#050505] rounded-xl border border-white/10 shadow-2xl overflow-hidden ring-1 ring-white/5">
-        <div className="absolute inset-0 pointer-events-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIiBmaWxsPSJub25lIiBzdHJva2U9InJnYigyNTUgMjU1IDI1NSAvIDAuMDUpIj48cGF0aCBkPSJNMCAuNUgzMS41VjMyIi8+PC9zdmc+')] opacity-[1] bg-center [mask-image:linear-gradient(180deg,white,transparent)]"></div>
-
+      <div className="border border-border rounded-lg overflow-hidden">
         {viewMode === "calendar" && (
-          <div className="relative z-10">
-            <div className="grid grid-cols-7 border-b border-white/5 bg-white/[0.02]">
-              {weekDayLabels.map((day, i) => (
+          <div>
+            <div className="grid grid-cols-7 border-b border-border bg-muted">
+              {weekDayLabels.map((day) => (
                 <div
                   key={day}
-                  className={`py-3 text-center text-[10px] font-medium tracking-widest ${
-                    i === 0 || i === 6 ? "text-muted-foreground/60" : "text-muted-foreground/40"
-                  }`}
+                  className="py-3 text-center text-xs font-medium text-muted-foreground"
                 >
                   {day}
                 </div>
               ))}
             </div>
 
-            <div className="grid grid-cols-7 divide-x divide-y divide-white/5">
+            <div className="grid grid-cols-7">
               {monthDays.map((date, i) => {
                 const dateKey = date.toISOString().split("T")[0];
                 const dayItems = itemsByDate.get(dateKey) || [];
@@ -209,45 +199,31 @@ export function CalendarView({ items, onItemClick }: CalendarViewProps) {
                 return (
                   <div
                     key={i}
-                    className={`min-h-[120px] p-2 transition-colors relative group ${
-                      !isCurrentMonth ? "bg-white/[0.01] opacity-50" : "hover:bg-white/[0.02]"
+                    className={`min-h-[120px] p-3 border-r border-b border-border transition-colors ${
+                      !isCurrentMonth ? "bg-muted/50 opacity-60" : "hover:bg-muted/50"
                     }`}
                   >
-                    <div className="flex justify-between items-start mb-2">
-                       <span
-                        className={`text-xs font-medium w-6 h-6 flex items-center justify-center rounded-md transition-colors ${
-                          isToday
-                            ? "bg-white text-black font-bold shadow-glow-sm"
-                            : "text-muted-foreground group-hover:text-foreground"
-                        }`}
-                      >
-                        {date.getDate()}
-                      </span>
-                    </div>
-                    
-                    <div className="space-y-1">
-                      {dayItems.slice(0, 4).map((item) => (
+                    <span
+                      className={`inline-flex items-center justify-center w-6 h-6 rounded text-sm font-medium ${
+                        isToday ? "bg-accent text-accent-foreground" : ""
+                      }`}
+                    >
+                      {date.getDate()}
+                    </span>
+
+                    <div className="mt-2 space-y-1">
+                      {dayItems.slice(0, 3).map((item) => (
                         <div
                           key={item.id}
                           onClick={(e) => { e.stopPropagation(); onItemClick?.(item); }}
-                          className={`
-                            text-[10px] px-2 py-1 rounded truncate cursor-pointer 
-                            transition-all duration-200 border
-                            flex items-center gap-1.5
-                            ${
-                              item.type === "GAME"
-                                ? "bg-[var(--game-background)]/10 border-[var(--game-primary)]/20 text-[var(--game-primary)] hover:border-[var(--game-primary)]/40 hover:bg-[var(--game-background)]/20"
-                                : "bg-[var(--book-background)]/10 border-[var(--book-primary)]/20 text-[var(--book-primary)] hover:border-[var(--book-primary)]/40 hover:bg-[var(--book-background)]/20"
-                            }
-                          `}
+                          className="text-xs px-2 py-1 rounded border border-border hover:border-accent hover:bg-accent/5 cursor-pointer truncate transition-colors"
                         >
-                          <span className={`w-1 h-1 rounded-full ${item.type === "GAME" ? "bg-[var(--game-primary)]" : "bg-[var(--book-primary)]"}`}></span>
                           {item.title}
                         </div>
                       ))}
-                      {dayItems.length > 4 && (
-                        <div className="text-[9px] text-muted-foreground pl-1.5 pt-0.5 opacity-60">
-                          +{dayItems.length - 4} more
+                      {dayItems.length > 3 && (
+                        <div className="text-xs text-muted-foreground px-2">
+                          +{dayItems.length - 3} more
                         </div>
                       )}
                     </div>
