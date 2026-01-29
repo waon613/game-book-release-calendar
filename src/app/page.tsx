@@ -6,8 +6,6 @@ import {
   ChevronRight, 
   Search,
   Calendar,
-  Grid3X3,
-  List,
   Gamepad2,
   BookOpen,
   Star,
@@ -16,71 +14,118 @@ import {
   X,
   Heart,
   Bell,
-  Filter,
-  SlidersHorizontal
+  ShoppingCart,
+  TrendingUp
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatPriceJPY } from "@/lib/utils/currency";
-import { formatDateJST } from "@/lib/utils/date";
 import type { Item } from "@/types";
 
-// Sample data
+// サンプルデータ
 const SAMPLE_ITEMS: Item[] = [
   {
     id: "1",
     type: "GAME",
-    title: "Final Fantasy XVII",
+    title: "ファイナルファンタジー XVII",
     releaseDate: "2026-02-15",
     coverUrl: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400&h=600&fit=crop",
     criticScore: 92,
     estimatedClearTime: 2400,
     currentPrice: 9680,
     platform: ["PS5", "Steam"],
-    genre: ["RPG", "Action"],
-    description: "The next chapter in the legendary Final Fantasy series. Experience an epic adventure across vast landscapes with revolutionary real-time combat.",
+    genre: ["RPG", "アクション"],
+    description: "シリーズ最新作。広大な世界を舞台に、革新的なリアルタイム戦闘システムで壮大な冒険を体験。",
     affiliateLinks: { amazon_jp: "https://amazon.co.jp", rakuten: "https://rakuten.co.jp" },
   },
   {
     id: "2",
     type: "GAME",
-    title: "Elden Ring: Shadow of the Erdtree",
-    releaseDate: "2026-02-20",
+    title: "エルデンリング DLC",
+    releaseDate: "2026-02-15",
     coverUrl: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400&h=600&fit=crop",
     criticScore: 96,
     estimatedClearTime: 3600,
     currentPrice: 4980,
     platform: ["PS5", "Xbox", "Steam"],
-    genre: ["Action", "RPG"],
-    description: "Expand your journey in the Lands Between with the massive expansion.",
+    genre: ["アクション", "RPG"],
+    description: "狭間の地を更に拡張する大型拡張コンテンツ。",
     affiliateLinks: { amazon_jp: "https://amazon.co.jp" },
   },
   {
     id: "3",
     type: "BOOK",
-    title: "System Design Interview Vol.3",
-    releaseDate: "2026-02-25",
+    title: "システム設計の面接対策 Vol.3",
+    releaseDate: "2026-02-20",
     coverUrl: "",
     currentPrice: 4200,
-    genre: ["Tech", "Programming"],
-    publisher: "O'Reilly",
-    description: "Master the art of designing scalable systems with real-world examples.",
+    genre: ["技術書", "プログラミング"],
+    publisher: "オライリー",
+    description: "実践的なシステム設計をマスターするための決定版。",
     affiliateLinks: { amazon_jp: "https://amazon.co.jp", rakuten: "https://rakuten.co.jp" },
   },
   {
     id: "4",
     type: "GAME",
-    title: "Monster Hunter Wilds",
-    releaseDate: "2026-03-05",
+    title: "モンスターハンター ワイルズ",
+    releaseDate: "2026-02-28",
     coverUrl: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400&h=600&fit=crop",
     criticScore: 89,
     estimatedClearTime: 1800,
     currentPrice: 8980,
     platform: ["PS5", "Xbox", "Steam"],
-    genre: ["Action", "Co-op"],
+    genre: ["アクション", "協力プレイ"],
+    affiliateLinks: { amazon_jp: "https://amazon.co.jp" },
+  },
+  {
+    id: "5",
+    type: "BOOK",
+    title: "React実践入門 2026年版",
+    releaseDate: "2026-03-01",
+    coverUrl: "",
+    currentPrice: 3800,
+    genre: ["技術書"],
+    publisher: "技術評論社",
     affiliateLinks: { amazon_jp: "https://amazon.co.jp" },
   },
 ];
 
+// 日付フォーマット
+function formatJapaneseDate(dateStr: string): string {
+  const date = new Date(dateStr);
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
+  const weekday = weekdays[date.getDay()];
+  return `${month}月${day}日（${weekday}）`;
+}
+
+function formatShortDate(dateStr: string): string {
+  const date = new Date(dateStr);
+  return `${date.getMonth() + 1}/${date.getDate()}`;
+}
+
+// 日付までの日数計算
+function getDaysUntil(dateStr: string): number {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const target = new Date(dateStr);
+  target.setHours(0, 0, 0, 0);
+  return Math.ceil((target.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+}
+
+// 日付ラベル
+function getRelativeLabel(dateStr: string): string {
+  const days = getDaysUntil(dateStr);
+  if (days < 0) return "発売済み";
+  if (days === 0) return "本日発売";
+  if (days === 1) return "明日発売";
+  if (days <= 7) return `${days}日後`;
+  if (days <= 14) return "来週";
+  if (days <= 30) return "今月中";
+  return `${Math.ceil(days / 7)}週間後`;
+}
+
+// カレンダー生成
 function generateMonthDays(year: number, month: number) {
   const firstDay = new Date(year, month - 1, 1);
   const lastDay = new Date(year, month, 0);
@@ -111,122 +156,127 @@ function groupItemsByDate(items: Item[]): Map<string, Item[]> {
   const map = new Map<string, Item[]>();
   items.forEach((item) => {
     if (item.releaseDate) {
-      const key = item.releaseDate;
-      const existing = map.get(key) || [];
+      const existing = map.get(item.releaseDate) || [];
       existing.push(item);
-      map.set(key, existing);
+      map.set(item.releaseDate, existing);
     }
   });
   return map;
 }
 
-// Item Detail Modal
+// アイテム詳細モーダル
 function ItemModal({ item, onClose }: { item: Item | null; onClose: () => void }) {
   if (!item) return null;
-
   const isGame = item.type === "GAME";
+  const daysUntil = getDaysUntil(item.releaseDate || "");
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6" onClick={onClose}>
-      {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
+      <div className="absolute inset-0 bg-black/50" />
       
-      {/* Modal */}
       <div 
-        className="relative w-full max-w-lg bg-background border border-border rounded-2xl shadow-2xl overflow-hidden"
+        className="relative w-full max-w-2xl bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Cover Image */}
-        <div className="relative h-48 bg-muted">
-          {item.coverUrl ? (
-            <img src={item.coverUrl} alt={item.title} className="w-full h-full object-cover" />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center">
-              {isGame ? <Gamepad2 className="w-16 h-16 text-muted-foreground/30" /> : <BookOpen className="w-16 h-16 text-muted-foreground/30" />}
-            </div>
+        {/* ヘッダー */}
+        <div className="relative h-40 bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-800 dark:to-zinc-900">
+          {item.coverUrl && (
+            <img src={item.coverUrl} alt="" className="absolute inset-0 w-full h-full object-cover opacity-30" />
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-zinc-900" />
           
           <button 
             onClick={onClose}
-            className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/70 transition-colors"
+            className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/20 text-white flex items-center justify-center hover:bg-black/40 transition-colors"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5" />
           </button>
+
+          {/* 発売日バッジ */}
+          <div className="absolute bottom-4 left-6">
+            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold ${
+              daysUntil <= 7 
+                ? "bg-red-500 text-white" 
+                : daysUntil <= 30 
+                  ? "bg-orange-500 text-white"
+                  : "bg-zinc-700 text-white"
+            }`}>
+              <Calendar className="w-4 h-4" />
+              {item.releaseDate && formatJapaneseDate(item.releaseDate)}
+              <span className="opacity-80">（{getRelativeLabel(item.releaseDate || "")}）</span>
+            </div>
+          </div>
         </div>
 
-        {/* Content */}
-        <div className="p-6 space-y-5">
-          {/* Header */}
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <span className={`inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium rounded-full ${
-                isGame ? "bg-violet-500/10 text-violet-500" : "bg-amber-500/10 text-amber-500"
+        {/* コンテンツ */}
+        <div className="p-6 space-y-6">
+          {/* タイトル */}
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <span className={`inline-flex items-center gap-1 px-2 py-1 text-xs font-bold rounded ${
+                isGame ? "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300" : "bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-300"
               }`}>
                 {isGame ? <Gamepad2 className="w-3 h-3" /> : <BookOpen className="w-3 h-3" />}
-                {item.type}
+                {isGame ? "ゲーム" : "書籍"}
               </span>
-              {item.releaseDate && (
-                <span className="text-xs text-muted-foreground">
-                  {formatDateJST(item.releaseDate)}
-                </span>
-              )}
+              {item.platform?.map(p => (
+                <span key={p} className="px-2 py-1 text-xs bg-zinc-100 dark:bg-zinc-800 rounded">{p}</span>
+              ))}
             </div>
-            <h2 className="text-xl font-semibold tracking-tight">{item.title}</h2>
+            <h2 className="text-2xl font-bold">{item.title}</h2>
+            {item.publisher && <p className="text-sm text-zinc-500 mt-1">{item.publisher}</p>}
           </div>
 
-          {/* Stats */}
-          <div className="flex items-center gap-6 text-sm">
+          {/* スペック */}
+          <div className="grid grid-cols-3 gap-4">
+            {item.currentPrice && (
+              <div className="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl">
+                <div className="text-xs text-zinc-500 mb-1">価格</div>
+                <div className="text-xl font-bold text-red-600 dark:text-red-400">{formatPriceJPY(item.currentPrice)}</div>
+              </div>
+            )}
             {item.criticScore && (
-              <div className="flex items-center gap-1.5">
-                <Star className="w-4 h-4 text-yellow-500" />
-                <span className="font-medium">{item.criticScore}</span>
+              <div className="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl">
+                <div className="text-xs text-zinc-500 mb-1">評価スコア</div>
+                <div className="flex items-center gap-1">
+                  <Star className="w-5 h-5 text-yellow-500" />
+                  <span className="text-xl font-bold">{item.criticScore}</span>
+                </div>
               </div>
             )}
             {item.estimatedClearTime && (
-              <div className="flex items-center gap-1.5 text-muted-foreground">
-                <Clock className="w-4 h-4" />
-                <span>{Math.round(item.estimatedClearTime / 60)}h</span>
-              </div>
-            )}
-            {item.platform && (
-              <div className="flex items-center gap-1.5 text-muted-foreground">
-                {item.platform.slice(0, 2).map(p => (
-                  <span key={p} className="px-1.5 py-0.5 text-xs bg-muted rounded">{p}</span>
-                ))}
+              <div className="p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-xl">
+                <div className="text-xs text-zinc-500 mb-1">プレイ時間</div>
+                <div className="flex items-center gap-1">
+                  <Clock className="w-5 h-5 text-zinc-400" />
+                  <span className="text-xl font-bold">{Math.round(item.estimatedClearTime / 60)}時間</span>
+                </div>
               </div>
             )}
           </div>
 
-          {/* Description */}
+          {/* 説明 */}
           {item.description && (
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              {item.description}
-            </p>
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">{item.description}</p>
           )}
 
-          {/* Price & Actions */}
-          <div className="flex items-center justify-between pt-2">
-            <div>
-              {item.currentPrice && (
-                <div className="text-2xl font-semibold">{formatPriceJPY(item.currentPrice)}</div>
-              )}
-            </div>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="icon" className="rounded-full">
-                <Heart className="w-4 h-4" />
+          {/* アクション */}
+          <div className="flex items-center gap-3 pt-2">
+            {item.affiliateLinks?.amazon_jp && (
+              <Button asChild className="flex-1 h-12 bg-[#FF9900] hover:bg-[#e88b00] text-black font-bold">
+                <a href={item.affiliateLinks.amazon_jp} target="_blank" rel="noopener noreferrer">
+                  <ShoppingCart className="w-4 h-4 mr-2" />
+                  Amazonで予約
+                </a>
               </Button>
-              <Button variant="outline" size="icon" className="rounded-full">
-                <Bell className="w-4 h-4" />
+            )}
+            {item.affiliateLinks?.rakuten && (
+              <Button asChild variant="outline" className="flex-1 h-12 border-red-500 text-red-500 hover:bg-red-50 dark:hover:bg-red-950 font-bold">
+                <a href={item.affiliateLinks.rakuten} target="_blank" rel="noopener noreferrer">
+                  楽天で予約
+                </a>
               </Button>
-              {item.affiliateLinks?.amazon_jp && (
-                <Button asChild className="rounded-full gap-2">
-                  <a href={item.affiliateLinks.amazon_jp} target="_blank" rel="noopener noreferrer">
-                    Buy <ExternalLink className="w-3 h-3" />
-                  </a>
-                </Button>
-              )}
-            </div>
+            )}
           </div>
         </div>
       </div>
@@ -234,108 +284,72 @@ function ItemModal({ item, onClose }: { item: Item | null; onClose: () => void }
   );
 }
 
-// Item Card Component
-function ItemCard({ item, onClick }: { item: Item; onClick: () => void }) {
+// タイムラインアイテム
+function TimelineItem({ item, onClick }: { item: Item; onClick: () => void }) {
   const isGame = item.type === "GAME";
-
+  const daysUntil = getDaysUntil(item.releaseDate || "");
+  
   return (
     <div 
       onClick={onClick}
-      className="group relative bg-card border border-border rounded-xl overflow-hidden cursor-pointer transition-all duration-200 hover:border-foreground/20 hover:shadow-lg"
+      className="group flex gap-4 p-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl cursor-pointer transition-all hover:shadow-lg hover:border-zinc-300 dark:hover:border-zinc-700"
     >
-      {/* Cover */}
-      <div className="relative aspect-[3/4] bg-muted overflow-hidden">
+      {/* カバー */}
+      <div className="w-20 h-28 rounded-lg bg-zinc-100 dark:bg-zinc-800 overflow-hidden flex-shrink-0">
         {item.coverUrl ? (
-          <img 
-            src={item.coverUrl} 
-            alt={item.title}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-          />
+          <img src={item.coverUrl} alt="" className="w-full h-full object-cover" />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            {isGame ? <Gamepad2 className="w-12 h-12 text-muted-foreground/20" /> : <BookOpen className="w-12 h-12 text-muted-foreground/20" />}
-          </div>
-        )}
-        
-        {/* Type Badge */}
-        <div className={`absolute top-3 left-3 px-2 py-1 text-[10px] font-semibold tracking-wider rounded-full ${
-          isGame ? "bg-violet-500 text-white" : "bg-amber-500 text-white"
-        }`}>
-          {item.type}
-        </div>
-
-        {/* Score Badge */}
-        {item.criticScore && (
-          <div className="absolute top-3 right-3 px-2 py-1 text-xs font-bold bg-black/70 text-white rounded-full flex items-center gap-1">
-            <Star className="w-3 h-3 text-yellow-400" />
-            {item.criticScore}
+            {isGame ? <Gamepad2 className="w-8 h-8 text-zinc-300" /> : <BookOpen className="w-8 h-8 text-zinc-300" />}
           </div>
         )}
       </div>
 
-      {/* Info */}
-      <div className="p-4 space-y-2">
-        <h3 className="font-medium text-sm line-clamp-2 leading-snug">{item.title}</h3>
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-muted-foreground">
-            {item.releaseDate ? formatDateJST(item.releaseDate) : "TBA"}
+      {/* 情報 */}
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2 mb-1">
+          <span className={`text-xs font-bold px-2 py-0.5 rounded ${
+            isGame ? "bg-indigo-100 text-indigo-600 dark:bg-indigo-900/50 dark:text-indigo-400" : "bg-amber-100 text-amber-600 dark:bg-amber-900/50 dark:text-amber-400"
+          }`}>
+            {isGame ? "ゲーム" : "書籍"}
           </span>
-          {item.currentPrice && (
-            <span className="text-sm font-semibold">{formatPriceJPY(item.currentPrice)}</span>
+          {item.platform?.slice(0, 2).map(p => (
+            <span key={p} className="text-xs text-zinc-500 bg-zinc-100 dark:bg-zinc-800 px-1.5 py-0.5 rounded">{p}</span>
+          ))}
+        </div>
+        
+        <h3 className="font-bold text-lg truncate group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+          {item.title}
+        </h3>
+        
+        <div className="flex items-center gap-4 mt-2 text-sm">
+          {item.criticScore && (
+            <span className="flex items-center gap-1 text-yellow-600">
+              <Star className="w-4 h-4" fill="currentColor" />
+              {item.criticScore}
+            </span>
+          )}
+          {item.estimatedClearTime && (
+            <span className="flex items-center gap-1 text-zinc-500">
+              <Clock className="w-4 h-4" />
+              {Math.round(item.estimatedClearTime / 60)}h
+            </span>
           )}
         </div>
       </div>
-    </div>
-  );
-}
 
-// Calendar Day Cell
-function CalendarDay({ 
-  date, 
-  items, 
-  isCurrentMonth, 
-  isToday,
-  onItemClick 
-}: { 
-  date: Date; 
-  items: Item[]; 
-  isCurrentMonth: boolean;
-  isToday: boolean;
-  onItemClick: (item: Item) => void;
-}) {
-  return (
-    <div className={`min-h-[100px] p-2 border-b border-r border-border transition-colors ${
-      !isCurrentMonth ? "bg-muted/30" : "hover:bg-muted/50"
-    }`}>
-      <div className={`w-7 h-7 flex items-center justify-center text-sm mb-1 ${
-        isToday 
-          ? "bg-foreground text-background font-semibold rounded-full" 
-          : isCurrentMonth 
-            ? "text-foreground" 
-            : "text-muted-foreground"
-      }`}>
-        {date.getDate()}
-      </div>
-      
-      <div className="space-y-1">
-        {items.slice(0, 2).map((item) => (
-          <div
-            key={item.id}
-            onClick={(e) => { e.stopPropagation(); onItemClick(item); }}
-            className={`text-[11px] px-2 py-1 rounded-md truncate cursor-pointer transition-colors ${
-              item.type === "GAME" 
-                ? "bg-violet-500/10 text-violet-600 dark:text-violet-400 hover:bg-violet-500/20" 
-                : "bg-amber-500/10 text-amber-600 dark:text-amber-400 hover:bg-amber-500/20"
-            }`}
-          >
-            {item.title}
-          </div>
-        ))}
-        {items.length > 2 && (
-          <div className="text-[10px] text-muted-foreground px-2">
-            +{items.length - 2} more
+      {/* 価格・発売日 */}
+      <div className="text-right flex-shrink-0">
+        {item.currentPrice && (
+          <div className="text-lg font-bold text-red-600 dark:text-red-400">
+            {formatPriceJPY(item.currentPrice)}
           </div>
         )}
+        <div className={`mt-1 text-sm font-medium ${
+          daysUntil <= 7 ? "text-red-500" : daysUntil <= 30 ? "text-orange-500" : "text-zinc-500"
+        }`}>
+          {getRelativeLabel(item.releaseDate || "")}
+        </div>
       </div>
     </div>
   );
@@ -345,23 +359,46 @@ export default function Home() {
   const today = new Date();
   const [items, setItems] = useState<Item[]>([]);
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
-  const [viewMode, setViewMode] = useState<"calendar" | "grid" | "list">("grid");
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
   const [currentMonth, setCurrentMonth] = useState(today.getMonth() + 1);
   const [filterType, setFilterType] = useState<"ALL" | "GAME" | "BOOK">("ALL");
-  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     setItems(SAMPLE_ITEMS);
   }, []);
 
   const filteredItems = useMemo(() => {
-    return items.filter(item => {
-      if (filterType !== "ALL" && item.type !== filterType) return false;
-      if (searchQuery && !item.title.toLowerCase().includes(searchQuery.toLowerCase())) return false;
-      return true;
+    return items.filter(item => filterType === "ALL" || item.type === filterType);
+  }, [items, filterType]);
+
+  // 発売日でソート
+  const sortedItems = useMemo(() => {
+    return [...filteredItems].sort((a, b) => {
+      if (!a.releaseDate) return 1;
+      if (!b.releaseDate) return -1;
+      return new Date(a.releaseDate).getTime() - new Date(b.releaseDate).getTime();
     });
-  }, [items, filterType, searchQuery]);
+  }, [filteredItems]);
+
+  // 日付でグループ化
+  const groupedByDate = useMemo(() => {
+    const groups: { date: string; items: Item[] }[] = [];
+    const map = new Map<string, Item[]>();
+    
+    sortedItems.forEach(item => {
+      if (item.releaseDate) {
+        const existing = map.get(item.releaseDate) || [];
+        existing.push(item);
+        map.set(item.releaseDate, existing);
+      }
+    });
+    
+    map.forEach((items, date) => {
+      groups.push({ date, items });
+    });
+    
+    return groups.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  }, [sortedItems]);
 
   const monthDays = useMemo(() => generateMonthDays(currentYear, currentMonth), [currentYear, currentMonth]);
   const itemsByDate = useMemo(() => groupItemsByDate(filteredItems), [filteredItems]);
@@ -384,237 +421,228 @@ export default function Home() {
     }
   };
 
-  const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const weekDays = ["日", "月", "火", "水", "木", "金", "土"];
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-40 w-full border-b border-border bg-background/80 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
+      {/* ヘッダー */}
+      <header className="sticky top-0 z-40 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16">
-            {/* Logo */}
+            {/* ロゴ */}
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-foreground flex items-center justify-center">
-                <Calendar className="w-4 h-4 text-background" />
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg">
+                <Calendar className="w-5 h-5 text-white" />
               </div>
-              <span className="text-lg font-semibold tracking-tight">Releases</span>
-            </div>
-
-            {/* Search */}
-            <div className="hidden sm:flex items-center flex-1 max-w-md mx-8">
-              <div className="relative w-full">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <input
-                  type="text"
-                  placeholder="Search releases..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full h-9 pl-9 pr-4 text-sm bg-muted border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
-                />
+              <div>
+                <h1 className="text-lg font-bold">発売カレンダー</h1>
+                <p className="text-xs text-zinc-500">ゲーム・書籍の新着情報</p>
               </div>
             </div>
 
-            {/* Actions */}
+            {/* ナビゲーション */}
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="icon" className="relative">
+              <Button variant="ghost" size="sm" className="gap-2">
                 <Heart className="w-4 h-4" />
+                <span className="hidden sm:inline">お気に入り</span>
               </Button>
-              <Button variant="ghost" size="icon" className="relative">
+              <Button variant="ghost" size="sm" className="gap-2">
                 <Bell className="w-4 h-4" />
+                <span className="hidden sm:inline">通知</span>
               </Button>
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-pink-500" />
             </div>
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Toolbar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-          {/* Type Filter */}
-          <div className="flex items-center gap-1 p-1 bg-muted rounded-lg">
-            {(["ALL", "GAME", "BOOK"] as const).map((type) => (
-              <button
-                key={type}
-                onClick={() => setFilterType(type)}
-                className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
-                  filterType === type 
-                    ? "bg-background text-foreground shadow-sm" 
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {type === "ALL" ? "All" : type === "GAME" ? "Games" : "Books"}
-              </button>
-            ))}
-          </div>
-
-          {/* View Toggle & Date Navigation */}
-          <div className="flex items-center gap-4">
-            {viewMode === "calendar" && (
-              <div className="flex items-center gap-2">
-                <Button variant="ghost" size="icon" onClick={goToPrevMonth}>
-                  <ChevronLeft className="w-4 h-4" />
-                </Button>
-                <span className="text-sm font-medium min-w-[100px] text-center">
-                  {currentYear} / {currentMonth.toString().padStart(2, "0")}
-                </span>
-                <Button variant="ghost" size="icon" onClick={goToNextMonth}>
-                  <ChevronRight className="w-4 h-4" />
-                </Button>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          
+          {/* 左側：タイムライン */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* フィルター */}
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-bold flex items-center gap-2">
+                <TrendingUp className="w-5 h-5 text-indigo-500" />
+                発売予定
+              </h2>
+              <div className="flex items-center gap-1 p-1 bg-zinc-100 dark:bg-zinc-800 rounded-lg">
+                {(["ALL", "GAME", "BOOK"] as const).map((type) => (
+                  <button
+                    key={type}
+                    onClick={() => setFilterType(type)}
+                    className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+                      filterType === type 
+                        ? "bg-white dark:bg-zinc-700 text-foreground shadow-sm" 
+                        : "text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300"
+                    }`}
+                  >
+                    {type === "ALL" ? "すべて" : type === "GAME" ? "ゲーム" : "書籍"}
+                  </button>
+                ))}
               </div>
-            )}
-
-            <div className="flex items-center gap-1 p-1 bg-muted rounded-lg">
-              <button
-                onClick={() => setViewMode("grid")}
-                className={`p-2 rounded-md transition-colors ${
-                  viewMode === "grid" ? "bg-background shadow-sm" : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <Grid3X3 className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => setViewMode("calendar")}
-                className={`p-2 rounded-md transition-colors ${
-                  viewMode === "calendar" ? "bg-background shadow-sm" : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <Calendar className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => setViewMode("list")}
-                className={`p-2 rounded-md transition-colors ${
-                  viewMode === "list" ? "bg-background shadow-sm" : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <List className="w-4 h-4" />
-              </button>
             </div>
 
-            <Button variant="outline" size="sm" className="gap-2">
-              <SlidersHorizontal className="w-4 h-4" />
-              Filters
-            </Button>
-          </div>
-        </div>
-
-        {/* Grid View */}
-        {viewMode === "grid" && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
-            {filteredItems.map((item) => (
-              <ItemCard key={item.id} item={item} onClick={() => setSelectedItem(item)} />
-            ))}
-          </div>
-        )}
-
-        {/* Calendar View */}
-        {viewMode === "calendar" && (
-          <div className="border border-border rounded-xl overflow-hidden">
-            {/* Week Header */}
-            <div className="grid grid-cols-7 bg-muted">
-              {weekDays.map((day) => (
-                <div key={day} className="py-3 text-center text-xs font-medium text-muted-foreground border-r border-border last:border-r-0">
-                  {day}
-                </div>
-              ))}
-            </div>
-
-            {/* Days Grid */}
-            <div className="grid grid-cols-7">
-              {monthDays.map((date, i) => {
-                const dateKey = date.toISOString().split("T")[0];
-                const dayItems = itemsByDate.get(dateKey) || [];
-                const isCurrentMonth = date.getMonth() + 1 === currentMonth;
-                const isToday = date.toDateString() === today.toDateString();
-
+            {/* タイムライン */}
+            <div className="space-y-6">
+              {groupedByDate.map(({ date, items }) => {
+                const daysUntil = getDaysUntil(date);
                 return (
-                  <CalendarDay
-                    key={i}
-                    date={date}
-                    items={dayItems}
-                    isCurrentMonth={isCurrentMonth}
-                    isToday={isToday}
-                    onItemClick={setSelectedItem}
-                  />
+                  <div key={date}>
+                    {/* 日付ヘッダー */}
+                    <div className="flex items-center gap-4 mb-3">
+                      <div className={`flex-shrink-0 w-24 h-24 rounded-2xl flex flex-col items-center justify-center shadow-lg ${
+                        daysUntil <= 0 
+                          ? "bg-green-500 text-white"
+                          : daysUntil <= 7 
+                            ? "bg-red-500 text-white" 
+                            : daysUntil <= 14 
+                              ? "bg-orange-500 text-white"
+                              : "bg-zinc-700 text-white"
+                      }`}>
+                        <div className="text-3xl font-bold">{new Date(date).getDate()}</div>
+                        <div className="text-sm opacity-90">{new Date(date).getMonth() + 1}月</div>
+                        <div className="text-xs opacity-75">{weekDays[new Date(date).getDay()]}曜日</div>
+                      </div>
+                      <div>
+                        <div className="text-lg font-bold">{formatJapaneseDate(date)}</div>
+                        <div className={`text-sm font-medium ${
+                          daysUntil <= 0 ? "text-green-600" : daysUntil <= 7 ? "text-red-500" : "text-zinc-500"
+                        }`}>
+                          {getRelativeLabel(date)}
+                        </div>
+                        <div className="text-xs text-zinc-400 mt-1">{items.length}件の発売</div>
+                      </div>
+                    </div>
+
+                    {/* アイテム */}
+                    <div className="space-y-3 ml-0 sm:ml-28">
+                      {items.map(item => (
+                        <TimelineItem 
+                          key={item.id} 
+                          item={item} 
+                          onClick={() => setSelectedItem(item)} 
+                        />
+                      ))}
+                    </div>
+                  </div>
                 );
               })}
             </div>
           </div>
-        )}
 
-        {/* List View */}
-        {viewMode === "list" && (
-          <div className="space-y-2">
-            {filteredItems.map((item) => (
-              <div
-                key={item.id}
-                onClick={() => setSelectedItem(item)}
-                className="flex items-center gap-4 p-4 bg-card border border-border rounded-xl cursor-pointer transition-all hover:border-foreground/20 hover:shadow-md"
-              >
-                {/* Cover */}
-                <div className="w-16 h-16 rounded-lg bg-muted overflow-hidden flex-shrink-0">
-                  {item.coverUrl ? (
-                    <img src={item.coverUrl} alt={item.title} className="w-full h-full object-cover" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      {item.type === "GAME" ? <Gamepad2 className="w-6 h-6 text-muted-foreground/30" /> : <BookOpen className="w-6 h-6 text-muted-foreground/30" />}
-                    </div>
-                  )}
+          {/* 右側：ミニカレンダー */}
+          <div className="space-y-6">
+            <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 sticky top-24">
+              {/* カレンダーヘッダー */}
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="font-bold text-lg">{currentYear}年{currentMonth}月</h3>
+                <div className="flex items-center gap-1">
+                  <Button variant="ghost" size="icon" className="w-8 h-8" onClick={goToPrevMonth}>
+                    <ChevronLeft className="w-4 h-4" />
+                  </Button>
+                  <Button variant="ghost" size="icon" className="w-8 h-8" onClick={goToNextMonth}>
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
                 </div>
-
-                {/* Info */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${
-                      item.type === "GAME" ? "bg-violet-500/10 text-violet-500" : "bg-amber-500/10 text-amber-500"
-                    }`}>
-                      {item.type}
-                    </span>
-                    <span className="text-xs text-muted-foreground">
-                      {item.releaseDate ? formatDateJST(item.releaseDate) : "TBA"}
-                    </span>
-                  </div>
-                  <h3 className="font-medium truncate">{item.title}</h3>
-                  <div className="flex items-center gap-3 mt-1 text-sm text-muted-foreground">
-                    {item.criticScore && (
-                      <span className="flex items-center gap-1">
-                        <Star className="w-3 h-3 text-yellow-500" />
-                        {item.criticScore}
-                      </span>
-                    )}
-                    {item.platform && (
-                      <span>{item.platform.slice(0, 2).join(" / ")}</span>
-                    )}
-                  </div>
-                </div>
-
-                {/* Price */}
-                <div className="text-right">
-                  {item.currentPrice && (
-                    <div className="font-semibold">{formatPriceJPY(item.currentPrice)}</div>
-                  )}
-                </div>
-
-                <ChevronRight className="w-5 h-5 text-muted-foreground" />
               </div>
-            ))}
-          </div>
-        )}
 
-        {/* Empty State */}
-        {filteredItems.length === 0 && (
-          <div className="flex flex-col items-center justify-center py-20 text-center">
-            <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
-              <Search className="w-6 h-6 text-muted-foreground" />
+              {/* 曜日 */}
+              <div className="grid grid-cols-7 mb-2">
+                {weekDays.map((day, i) => (
+                  <div 
+                    key={day} 
+                    className={`text-center text-xs font-medium py-2 ${
+                      i === 0 ? "text-red-500" : i === 6 ? "text-blue-500" : "text-zinc-500"
+                    }`}
+                  >
+                    {day}
+                  </div>
+                ))}
+              </div>
+
+              {/* 日付グリッド */}
+              <div className="grid grid-cols-7 gap-1">
+                {monthDays.map((date, i) => {
+                  const dateKey = date.toISOString().split("T")[0];
+                  const dayItems = itemsByDate.get(dateKey) || [];
+                  const isCurrentMonth = date.getMonth() + 1 === currentMonth;
+                  const isToday = date.toDateString() === today.toDateString();
+                  const dayOfWeek = date.getDay();
+                  const hasItems = dayItems.length > 0;
+
+                  return (
+                    <div
+                      key={i}
+                      className={`relative aspect-square flex flex-col items-center justify-center rounded-lg text-sm transition-colors ${
+                        !isCurrentMonth 
+                          ? "text-zinc-300 dark:text-zinc-700" 
+                          : isToday 
+                            ? "bg-indigo-500 text-white font-bold"
+                            : hasItems
+                              ? "bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 font-bold cursor-pointer hover:bg-indigo-100 dark:hover:bg-indigo-900"
+                              : dayOfWeek === 0
+                                ? "text-red-500"
+                                : dayOfWeek === 6
+                                  ? "text-blue-500"
+                                  : ""
+                      }`}
+                      onClick={() => {
+                        if (hasItems && dayItems[0]) {
+                          setSelectedItem(dayItems[0]);
+                        }
+                      }}
+                    >
+                      {date.getDate()}
+                      {hasItems && (
+                        <div className="absolute bottom-1 flex gap-0.5">
+                          {dayItems.slice(0, 3).map((item, j) => (
+                            <div 
+                              key={j}
+                              className={`w-1 h-1 rounded-full ${
+                                item.type === "GAME" ? "bg-indigo-500" : "bg-amber-500"
+                              }`}
+                            />
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* 凡例 */}
+              <div className="flex items-center justify-center gap-6 mt-6 pt-4 border-t border-zinc-200 dark:border-zinc-800">
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-indigo-500" />
+                  <span className="text-xs text-zinc-500">ゲーム</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-amber-500" />
+                  <span className="text-xs text-zinc-500">書籍</span>
+                </div>
+              </div>
             </div>
-            <h3 className="text-lg font-medium mb-1">No releases found</h3>
-            <p className="text-sm text-muted-foreground">Try adjusting your filters or search query</p>
+
+            {/* 統計 */}
+            <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6">
+              <h3 className="font-bold mb-4">今月の発売予定</h3>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-zinc-500">ゲーム</span>
+                  <span className="font-bold text-indigo-600">{filteredItems.filter(i => i.type === "GAME").length}本</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-zinc-500">書籍</span>
+                  <span className="font-bold text-amber-600">{filteredItems.filter(i => i.type === "BOOK").length}冊</span>
+                </div>
+              </div>
+            </div>
           </div>
-        )}
+        </div>
       </main>
 
-      {/* Item Modal */}
+      {/* モーダル */}
       <ItemModal item={selectedItem} onClose={() => setSelectedItem(null)} />
     </div>
   );
