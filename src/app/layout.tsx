@@ -1,26 +1,23 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google"; 
+import { Inter, JetBrains_Mono } from "next/font/google";
 import Script from "next/script";
 import "@aws-amplify/ui-react/styles.css";
 import "./globals.css";
-import { AmplifyProvider } from "@/components/providers/AmplifyProvider";
-import { GoogleAnalytics } from "@/components/analytics";
-import { OfflineIndicator, PWAInstallPrompt } from "@/components/pwa";
 
-const inter = Inter({ 
-  subsets: ["latin"], 
+const inter = Inter({
+  subsets: ["latin"],
   variable: "--font-sans",
-  display: 'swap',
+  display: "swap",
 });
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
-  display: 'swap',
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Release Calendar | Game & Book", 
+  title: "Release Calendar | Game & Book",
   description:
     "Explore upcoming games and books. Track releases, check scores, and manage your backlog.",
   keywords: [
@@ -32,8 +29,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "Release Calendar Platform",
-    description:
-      "A modern platform to track game and book releases.",
+    description: "A modern platform to track game and book releases.",
     locale: "ja_JP",
     type: "website",
     siteName: "Release Calendar",
@@ -61,12 +57,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const adsenseClientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
-  const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
   return (
-    <html lang="ja" className="dark"> 
+    <html lang="ja" className="dark h-full">
       <head>
-        {/* Google AdSense */}
         {adsenseClientId && (
           <Script
             async
@@ -76,19 +70,10 @@ export default function RootLayout({
           />
         )}
       </head>
-      <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased bg-background text-foreground min-h-screen selection:bg-primary/20`}>
-        {/* Google Analytics */}
-        {gaMeasurementId && <GoogleAnalytics measurementId={gaMeasurementId} />}
-        
-        {/* オフラインインジケーター */}
-        <OfflineIndicator />
-        
-        <AmplifyProvider>
-          {children}
-        </AmplifyProvider>
-        
-        {/* PWAインストールプロンプト */}
-        <PWAInstallPrompt />
+      <body
+        className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased bg-[#050505] text-foreground min-h-screen selection:bg-white/20`}
+      >
+        {children}
       </body>
     </html>
   );
