@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Inter, JetBrains_Mono } from "next/font/google"; 
 import Script from "next/script";
 import "@aws-amplify/ui-react/styles.css";
 import "./globals.css";
@@ -6,30 +7,41 @@ import { AmplifyProvider } from "@/components/providers/AmplifyProvider";
 import { GoogleAnalytics } from "@/components/analytics";
 import { OfflineIndicator, PWAInstallPrompt } from "@/components/pwa";
 
+const inter = Inter({ 
+  subsets: ["latin"], 
+  variable: "--font-sans",
+  display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: 'swap',
+});
+
 export const metadata: Metadata = {
-  title: "ゲーム＆書籍リリースカレンダー | 発売日・価格・評価をチェック",
+  title: "Release Calendar | Game & Book", 
   description:
-    "ゲームと書籍の発売日カレンダー。クリア時間や評価スコアでフィルタリング。Amazon・楽天での予約も簡単に。",
+    "Explore upcoming games and books. Track releases, check scores, and manage your backlog.",
   keywords: [
-    "ゲーム発売日",
-    "新刊カレンダー",
-    "マンガ発売日",
-    "ライトノベル",
-    "積みゲー",
-    "積読",
+    "Game Release",
+    "Book Release",
+    "Calendar",
+    "Schedule",
+    "Backlog",
   ],
   openGraph: {
-    title: "ゲーム＆書籍リリースカレンダー",
+    title: "Release Calendar Platform",
     description:
-      "ゲームと書籍の発売日を一覧表示。クリア時間や評価スコアでフィルタリング可能。",
+      "A modern platform to track game and book releases.",
     locale: "ja_JP",
     type: "website",
-    siteName: "ゲーム＆書籍リリースカレンダー",
+    siteName: "Release Calendar",
   },
   twitter: {
     card: "summary_large_image",
-    title: "ゲーム＆書籍リリースカレンダー",
-    description: "ゲームと書籍の発売日を一覧表示。クリア時間や評価スコアでフィルタリング可能。",
+    title: "Release Calendar",
+    description: "Modern release tracking for games and books.",
   },
   robots: {
     index: true,
@@ -52,7 +64,7 @@ export default function RootLayout({
   const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
   return (
-    <html lang="ja">
+    <html lang="ja" className="dark"> 
       <head>
         {/* Google AdSense */}
         {adsenseClientId && (
@@ -64,7 +76,7 @@ export default function RootLayout({
           />
         )}
       </head>
-      <body className="min-h-screen bg-background font-sans antialiased">
+      <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased bg-background text-foreground min-h-screen selection:bg-primary/20`}>
         {/* Google Analytics */}
         {gaMeasurementId && <GoogleAnalytics measurementId={gaMeasurementId} />}
         
