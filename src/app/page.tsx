@@ -362,9 +362,32 @@ export default function Home() {
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
   const [currentMonth, setCurrentMonth] = useState(today.getMonth() + 1);
   const [filterType, setFilterType] = useState<"ALL" | "GAME" | "BOOK">("ALL");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setItems(SAMPLE_ITEMS);
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/releases');
+        const data = await response.json();
+        
+        if (data.success && data.items) {
+          setItems(data.items);
+        } else {
+          // APIエラーの場合はサンプルデータを使用
+          console.warn('API failed, using sample data:', data.error);
+          setItems(SAMPLE_ITEMS);
+        }
+      } catch (error) {
+        console.error('Failed to fetch releases:', error);
+        // ネットワークエラーの場合もサンプルデータを使用
+        setItems(SAMPLE_ITEMS);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchData();
   }, []);
 
   const filteredItems = useMemo(() => {
@@ -485,7 +508,19 @@ export default function Home() {
 
             {/* タイムライン */}
             <div className="space-y-6">
-              {groupedByDate.map(({ date, items }) => {
+              {loading ? (
+                <div className="flex flex-col items-center justify-center py-20">
+                  <div className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mb-4" />
+                  <p className="text-zinc-500">発売情報を取得中...</p>
+                </div>
+              ) : groupedByDate.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-20 text-center">
+                  <Calendar className="w-16 h-16 text-zinc-300 mb-4" />
+                  <h3 className="text-lg font-medium mb-1">発売予定がありません</h3>
+                  <p className="text-sm text-zinc-500">フィルターを変更するか、後ほどお試しください</p>
+                </div>
+              ) : (
+                groupedByDate.map(({ date, items }) => {
                 const daysUntil = getDaysUntil(date);
                 return (
                   <div key={date}>
@@ -527,7 +562,8 @@ export default function Home() {
                     </div>
                   </div>
                 );
-              })}
+              })
+              )}
             </div>
           </div>
 
