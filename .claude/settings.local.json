@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(gh repo view:*)"
+      "Bash(gh repo view:*)",
+      "Bash(aws amplify get-app:*)",
+      "Bash(aws amplify get-branch:*)"
     ]
   }
 }

@@ -71,7 +71,7 @@ export default function RootLayout({
         )}
       </head>
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased bg-[#050505] text-foreground min-h-screen tracking-tight selection:bg-white/20`}
+        className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased min-h-screen`}
       >
         {children}
       </body>
